@@ -1,0 +1,222 @@
+.droptarget {
+width: 90%; 
+min-height: 300px;
+max-height: 50%;
+margin: 15px;
+padding-left: 50px;
+border: 2px dotted #24695C;
+border-radius: 20px;
+background-color: white;
+}
+.container-fluid{
+  background-color: #E6EDEF;
+  padding-top: 20px;
+  padding-left: 50px;
+  margin:0;
+  
+}
+
+.main-nav{
+  margin-top: 0;
+  padding-top: 0;
+}
+.center {
+    text-align: center;
+    padding-top: 100px;
+    font-weight: bold;
+    }
+
+#droppeditem{
+    width: 50%;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin:0;
+}
+
+
+#mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+}
+#mydiv {
+    cursor: move;
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    text-align: center;
+    border: 1px solid #d3d3d3;
+  }
+
+/* modal */
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40ch;
+    min-width: 40ch;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: black;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .lists {
+   
+    display: flex;
+    flex: 1;
+    width: 100%;
+    overflow-x: scroll;
+    padding-bottom: 20px;
+  }
+  
+  .lists .list {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    width: 100%;
+    min-width: 250px;
+    max-width: 350px;
+    height: 100%;
+    min-height: auto;
+    border-radius: 10px;
+    background-color: white;
+    margin: 0 15px;
+    padding: 8px;
+    transition: all 0.2s linear;
+    box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),
+    -2px -2px 12px rgba(255, 255, 255, 0.5),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .lists .list:hover{
+    box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1),
+    inset -2px -2px 12px rgba(255, 255, 255, 0.5),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 8px rgba(0, 0, 0, 0.5);  
+}
+  
+  .lists .list .list-item {
+    background-color: #F3F3F3;
+    border-radius: 8px;
+    padding: 15px 20px;
+    text-align: center;
+    margin: 4px 0px;
+  }
+
+  .lists .list .list-item h5{
+   float: left;
+   font-size: 15px;
+  }
+
+  .dropdown-basic{
+    display: none;
+  }
+
+  .custom_input{
+    display: none;
+  }
+
+  /* header */
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color:#24695C;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+ .nav_links a{
+  font-size: 15px;
+  text-align: left;
+}
+  
+  #main {
+    transition: padding-left .5s;
+    padding-left: 50px;
+  }
+  #droprow {
+    transition: padding-left .5s;
+    padding-left: 50px;
+    background-color: #E6EDEF;
+    padding-top: 50px;
+    height: 100vh;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  
+  .custom_footer {
+    position: absolute;
+    padding-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: gray;
+    text-align: center;
+ }
+
+ .body{
+  margin:0;
+  padding:0;
+  height:100%;
+ }
