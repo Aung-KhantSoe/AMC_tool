@@ -51,6 +51,7 @@ function drop(event) {
   //if dropdown type
   //else if input type
   if (document.getElementById(data).contains(document.getElementById(data + "_" + "choose_value"))) {
+    //if choose value is not null
     if (document.getElementById(data + "_" + "choose_value").value) {
       var para = document.createElement("p");
       para.setAttribute("id", "droppeditem");
@@ -98,7 +99,7 @@ function drop(event) {
 function openmodal(event) {
   //get id of dragged card
   var data = event.dataTransfer.getData("Text");
-  document.getElementById("modal_title").innerText = data;
+  document.getElementById("modal_title").innerText = document.getElementById(data).innerText;
   document.getElementById("modal_body").innerHTML = document.getElementById(data + "_body").innerHTML;
   document.getElementById("modal_body").style.display = "block";
   var modal = document.getElementById("myModal");
@@ -106,7 +107,7 @@ function openmodal(event) {
 }
 
 
-// When the user clicks on <span> (x), close the modal
+// When the user clicks cancel, close the modal
 function closeclick() {
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
@@ -255,4 +256,58 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.paddingLeft = "50px";
   document.getElementById("droprow").style.paddingLeft = "50px";
+}
+
+function add_dropdown_selected(event){
+  
+  var selected = document.getElementById(event.target.id);
+
+  if (selected.value == "Dropdown type") {
+    var addrow = document.getElementById("add_dropdown_value");
+    addrow.style.display = "block";
+  } else if(selected.value == "Input type"){
+    var addrow = document.getElementById("add_dropdown_value");
+    addrow.style.display = "none";
+  }
+  // var mainrow = document.getElementById("add_dropdown_value");
+  // mainrow.style.display = "block";
+}
+
+var count = 1;
+function add_dropdown_value(event){
+  count++;
+  var maindiv = document.getElementById("dropdown_field");
+  var addeddiv = document.createElement('div');
+  addeddiv.innerHTML = '<input name="'+count+'" class="form-control" type="text" placeholder="Dropdown value '+count+'" required="true"> ';
+  var hiddendiv = document.createElement('div');
+  hiddendiv.innerHTML = '<input name="total" style="display: none" class="form-control" type="text" id="hidden_div" value="'+count+'" > ';
+  if(count > 2){
+    document.getElementById("hidden_div").remove();
+  }
+  maindiv.appendChild(addeddiv);
+  maindiv.appendChild(hiddendiv);
+}
+
+function colorchange(event){
+  var color_drop = document.getElementById("color_select");
+  var value = document.getElementById("color_select").value;
+  if (value == null) {
+    color_drop.className="";
+    color_drop.classList.add("form-select");
+  } else {
+    color_drop.className="";
+    color_drop.classList.add("form-select");
+    color_drop.classList.add("btn-"+value);
+  }
+  
+}
+
+function deleteonclick($id){
+  alert($id);
+  if (confirm("Are you sure to delete this card?") == true) {
+    //window.location.href = "{{URL::to('/deletecard/"+$id+"')}}"
+    location.replace("{{ route('deletecard') }}?id="+$id);
+  } else {
+    return;
+  }
 }
