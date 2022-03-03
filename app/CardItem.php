@@ -17,4 +17,9 @@ class CardItem extends Model
     {
         return $this->hasMany(DropdownValue::class);
     }
+
+    public function inputvalues()
+    {
+        return $this->hasMany(InputValue::class);
+    }
 }

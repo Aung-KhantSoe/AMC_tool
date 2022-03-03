@@ -56,6 +56,7 @@
             @foreach ($items as $item)
             @php
             $dropdown_values = DB::table('dropdown_values')->where('card_item_id', $item->id)->get();
+            $input_values = DB::table('input_values')->where('card_item_id', $item->id)->get();
             @endphp
             
             <div class="list-item bg-{{$card->color}} {{$card->id}}" ondragstart="dragStart(event)" ondrag="dragging(event)" draggable="true" id="{{$item->name}}{{$item->id}}">            
@@ -64,8 +65,10 @@
               <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
               <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event)" id="{{$item->name}}{{$item->id}}_drop"></i>
               @if ($item->type == "Input type")
-                <div class="custom_input" id="{{$item->name}}{{$item->id}}_body">              
-                  <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value" type="text" placeholder="{{$item->name}}">                                
+                <div class="custom_input" id="{{$item->name}}{{$item->id}}_body">
+                  @foreach ($input_values as $input_value)
+                  <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value" type="text" placeholder="{{$input_value->name}}">                                
+                  @endforeach              
                 </div>
               @elseif ($item->type == "Dropdown type")
                 <div class="dropdown-basic pb-1" id="{{$item->name}}{{$item->id}}_body">
@@ -73,13 +76,10 @@
                       <option value="">Your {{$item->name}}</option>
                       @foreach ($dropdown_values as $dropdown_value)
                       <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
-                      @endforeach
-                      
+                      @endforeach                    
                   </select>
                 </div>
-              
-              @endif
-              
+              @endif        
             </div>
             @endforeach           
               

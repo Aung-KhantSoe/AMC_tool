@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Card;
 use App\CardItem;
 use App\DropdownValue;
+use App\InputValue;
+
 
 class DashboardController extends Controller
 {
@@ -49,7 +51,7 @@ class DashboardController extends Controller
             'name.required' => 'Card Item Name is required.',
             'type.required' => 'Card Item Type is required.',
         ]
-    );
+        );
 
         $carditem = new CardItem;
         $carditem->name = $req->name;
@@ -59,11 +61,21 @@ class DashboardController extends Controller
 
         
         $count = $req->total;
-        for ($i=0; $i < $count; $i++) { 
-               
-            $dropdownvalue = new DropdownValue;
-            $dropdownvalue->name = $req->input($i+1);
-            $carditem->dropdownvalues()->save($dropdownvalue);
+        $incount = $req->input_total;
+
+        if ($count == 1 || $count > 1) {
+            for ($i=0; $i < $count; $i++) {              
+                $dropdownvalue = new DropdownValue;
+                $dropdownvalue->name = $req->input($i+1);
+                $carditem->dropdownvalues()->save($dropdownvalue);
+            }
+        } else {
+            for ($i=0; $i < $incount; $i++) { 
+                $inputvalue = new InputValue;
+                $index = $i+1;
+                $inputvalue->name = $req->input("input$index");
+                $carditem->inputvalues()->save($inputvalue);
+            }
         }
 
         return redirect()->route('home');
@@ -76,6 +88,10 @@ class DashboardController extends Controller
             $dropdownvalues = DropdownValue::where('card_item_id',$carditem->id)->get();
             foreach ($dropdownvalues as $dropdownvalue) {
                 $dropdownvalue->delete();
+            }
+            $inputvalues = InputValue::where('card_item_id',$carditem->id)->get();
+            foreach ($inputvalues as $inputvalue) {
+                $inputvalue->delete();
             }
             $carditem->delete();
         }
@@ -90,6 +106,10 @@ class DashboardController extends Controller
         $dropdownvalues = DropdownValue::where('card_item_id',$id)->get();
         foreach ($dropdownvalues as $dropdownvalue) {
             $dropdownvalue->delete();
+        }
+        $inputvalues = InputValue::where('card_item_id',$carditem->id)->get();
+        foreach ($inputvalues as $inputvalue) {
+            $inputvalue->delete();
         }
         $carditem->delete();
 

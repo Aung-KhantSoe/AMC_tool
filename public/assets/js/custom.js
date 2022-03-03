@@ -77,7 +77,7 @@ function drop(event) {
         if (document.getElementById(data).innerText == "AIDA") {
           text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
         } else {
-          text = document.getElementById(data + "_title").innerText + " : " + children[i].value;
+          text = children[i].placeholder + " : " + children[i].value;
         }
         //var text = document.getElementById(data+"_"+"title").innerText +" : "+ document.getElementById(data+"_"+"input_value").value;
         var textnode = document.createTextNode(text);
@@ -125,7 +125,7 @@ function modalokclick() {
     if (document.getElementById("modal_title").innerText == "AIDA") {
       text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
     } else {
-      text = document.getElementById("modal_title").innerText + " : " + children[i].value;
+      text = children[i].placeholder + " : " + children[i].value;
     }
 
     var textnode = document.createTextNode(text);
@@ -265,12 +265,19 @@ function add_dropdown_selected(event){
   if (selected.value == "Dropdown type") {
     var addrow = document.getElementById("add_dropdown_value");
     addrow.style.display = "block";
+    var addrow = document.getElementById("add_input_value");
+    addrow.style.display = "none";
+    document.getElementById('hidden_div').value = 1;
+    document.getElementById('hidden_input_div').value = 0;
   } else if(selected.value == "Input type"){
     var addrow = document.getElementById("add_dropdown_value");
     addrow.style.display = "none";
+    var addrow = document.getElementById("add_input_value");
+    addrow.style.display = "block";
+    document.getElementById('hidden_input_div').value = 1;
+    document.getElementById('hidden_div').value = 0;
   }
-  // var mainrow = document.getElementById("add_dropdown_value");
-  // mainrow.style.display = "block";
+  
 }
 
 var count = 1;
@@ -279,13 +286,30 @@ function add_dropdown_value(event){
   var maindiv = document.getElementById("dropdown_field");
   var addeddiv = document.createElement('div');
   addeddiv.innerHTML = '<input name="'+count+'" class="form-control" type="text" placeholder="Dropdown value '+count+'" required="true"> ';
-  var hiddendiv = document.createElement('div');
+  var hiddendiv = document.getElementById('hidden_div');
   hiddendiv.innerHTML = '<input name="total" style="display: none" class="form-control" type="text" id="hidden_div" value="'+count+'" > ';
   if(count > 2){
     document.getElementById("hidden_div").remove();
   }
   maindiv.appendChild(addeddiv);
   maindiv.appendChild(hiddendiv);
+  
+}
+
+var inputcount = 1;
+function add_input_value(event){
+  inputcount++;
+  var maindiv = document.getElementById("input_field");
+  var addeddiv = document.createElement('div');
+  addeddiv.innerHTML = '<input name="input'+inputcount+'" class="form-control" type="text" placeholder="Input value '+inputcount+'" required="true"> ';
+  var hiddendiv = document.getElementById('hidden_div');
+  hiddendiv.innerHTML = '<input name="input_total" style="display: none" class="form-control" type="text" id="hidden_input_div" value="'+inputcount+'" > ';
+  if(inputcount > 2){
+    document.getElementById("hidden_div").remove();
+  }
+  maindiv.appendChild(addeddiv);
+  maindiv.appendChild(hiddendiv);
+  
 }
 
 function colorchange(event){
@@ -302,12 +326,12 @@ function colorchange(event){
   
 }
 
-function deleteonclick($id){
-  alert($id);
-  if (confirm("Are you sure to delete this card?") == true) {
-    //window.location.href = "{{URL::to('/deletecard/"+$id+"')}}"
-    location.replace("{{ route('deletecard') }}?id="+$id);
-  } else {
-    return;
-  }
-}
+// function deleteonclick($id){
+//   alert($id);
+//   if (confirm("Are you sure to delete this card?") == true) {
+//     //window.location.href = "{{URL::to('/deletecard/"+$id+"')}}"
+//     location.replace("{{ route('deletecard') }}?id="+$id);
+//   } else {
+//     return;
+//   }
+// }
