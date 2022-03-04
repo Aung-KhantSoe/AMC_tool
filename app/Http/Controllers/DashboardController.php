@@ -11,6 +11,7 @@ use App\InputValue;
 
 class DashboardController extends Controller
 {
+   
     //
     public function index(){
         $cards = Card::all();       
@@ -19,6 +20,18 @@ class DashboardController extends Controller
     
     public function dashboard(){
         return view('admindashboard');
+    }
+
+    public function cardcreate(){
+        return view('cardcreate');
+    }
+
+    public function projects(){
+        return view('projects');
+    }
+
+    public function projectcreate(){
+        return view('projectcreate');
     }
 
     public function addcard(Request $req){
