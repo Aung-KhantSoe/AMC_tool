@@ -65,19 +65,36 @@
               <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
               <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event)" id="{{$item->name}}{{$item->id}}_drop"></i>
               @if ($item->type == "Input type")
-                <div class="custom_input" id="{{$item->name}}{{$item->id}}_body">
+                <div class="custom_input input" id="{{$item->name}}{{$item->id}}_body">
                   @foreach ($input_values as $input_value)
                   <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value" type="text" placeholder="{{$input_value->name}}">                                
                   @endforeach              
                 </div>
               @elseif ($item->type == "Dropdown type")
-                <div class="dropdown-basic pb-1" id="{{$item->name}}{{$item->id}}_body">
+                <div class="dropdown-basic pb-1 dropdown" id="{{$item->name}}{{$item->id}}_body">
                   <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
                       <option value="">Your {{$item->name}}</option>
                       @foreach ($dropdown_values as $dropdown_value)
                       <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
                       @endforeach                    
                   </select>
+                </div>
+              @elseif ($item->type == "Compound type")
+                <div class="dropdown-basic pb-1 compound" id="{{$item->name}}{{$item->id}}_body">
+                  
+                    <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value1" type="text" placeholder="{{$input_values[0]->name}}">                                
+                 
+                  
+                    <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
+                      <option value="">Your {{$item->name}}</option>
+                      @foreach ($dropdown_values as $dropdown_value)
+                      <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
+                      @endforeach                    
+                    </select>
+                 
+                  
+                    <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100" onclick="changetype(event)" onblur="percentage(event)" placeholder="{{$input_values[1]->name}}">                                
+                  
                 </div>
               @endif        
             </div>

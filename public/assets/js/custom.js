@@ -50,8 +50,9 @@ function drop(event) {
   //check if the card is dropdown type or input type
   //if dropdown type
   //else if input type
-  if (document.getElementById(data).contains(document.getElementById(data + "_" + "choose_value"))) {
+  if (document.getElementById(data).children[4].classList.contains("dropdown")){
     //if choose value is not null
+   
     if (document.getElementById(data + "_" + "choose_value").value) {
       var para = document.createElement("p");
       para.setAttribute("id", "droppeditem");
@@ -64,7 +65,7 @@ function drop(event) {
     } else {
       openmodal(event);
     }
-  } else if (document.getElementById(data).contains(document.getElementById(data + "_" + "input_value"))) {
+  } else if (document.getElementById(data).children[4].classList.contains("input")) {
     //check if the input value is null or not
     //if not null , else null
     if (document.getElementById(data + "_" + "input_value").value) {
@@ -77,7 +78,7 @@ function drop(event) {
         if (document.getElementById(data).innerText == "AIDA") {
           text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
         } else {
-          text = children[i].placeholder + " : " + children[i].value;
+          text = document.getElementById(data).innerText + " : " + children[i].value;
         }
         //var text = document.getElementById(data+"_"+"title").innerText +" : "+ document.getElementById(data+"_"+"input_value").value;
         var textnode = document.createTextNode(text);
@@ -86,10 +87,51 @@ function drop(event) {
         event.target.appendChild(para);
       };
 
-    } else {
+    }
+    else {
       //display modal to fill null data     
       openmodal(event);
     }
+  }else if(document.getElementById(data).children[4].classList.contains("compound")){
+    
+      
+      var input1 = document.getElementById(data + "_input_value1");
+      var choosevalue = document.getElementById(data + "_choose_value");
+      var input2 = document.getElementById(data + "_input_value2");
+
+      if (input1.value || choosevalue.value || input2.value) {
+        var para1 = document.createElement("p");
+        para1.setAttribute("id", "droppeditem");
+        var para2 = document.createElement("p");
+        para2.setAttribute("id", "droppeditem");
+        var para3 = document.createElement("p");
+        para3.setAttribute("id", "droppeditem");
+        //get title and input value of dropped card
+        
+        
+        var text1 = input1.placeholder+ " : " + input1.value;
+        var text2 = choosevalue.ariaLabel + " : " + choosevalue.value;
+        var text3 = input2.placeholder+ " : " + input2.value;
+
+        //var text = document.getElementById(data+"_"+"title").innerText +" : "+ document.getElementById(data+"_"+"input_value").value;
+        var textnode1 = document.createTextNode(text1);
+        var textnode2 = document.createTextNode(text2);
+        var textnode3 = document.createTextNode(text3);
+
+        para1.appendChild(textnode1);
+        para2.appendChild(textnode2);
+        para3.appendChild(textnode3);
+
+        //added title and input value to target
+        event.target.appendChild(para1);
+        event.target.appendChild(para2);
+        event.target.appendChild(para3);
+    }
+    else {
+      //display modal to fill null data     
+      openmodal(event);
+    }
+
   }
 }
 
@@ -99,7 +141,7 @@ function drop(event) {
 function openmodal(event) {
   //get id of dragged card
   var data = event.dataTransfer.getData("Text");
-  document.getElementById("modal_title").innerText = document.getElementById(data).innerText;
+  document.getElementById("modal_title").innerText = document.getElementById(data+"_title").innerText;
   document.getElementById("modal_body").innerHTML = document.getElementById(data + "_body").innerHTML;
   document.getElementById("modal_body").style.display = "block";
   var modal = document.getElementById("myModal");
@@ -118,6 +160,7 @@ function modalokclick() {
   var data = document.getElementById("modal_title").innerText;
 
   var children = document.getElementById("modal_body").children;
+  
   for (let i = 0; i < children.length; i++) {
     var para = document.createElement("p");
     para.setAttribute("id", "droppeditem");
@@ -125,7 +168,12 @@ function modalokclick() {
     if (document.getElementById("modal_title").innerText == "AIDA") {
       text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
     } else {
-      text = children[i].placeholder + " : " + children[i].value;
+      if (children[i].placeholder) {
+        text = children[i].placeholder + " : " + children[i].value;
+      } else {
+        text = document.getElementById("modal_title").innerText + " : " + children[i].value;
+      }
+      
     }
 
     var textnode = document.createTextNode(text);
@@ -267,17 +315,32 @@ function add_dropdown_selected(event){
     addrow.style.display = "block";
     var addrow = document.getElementById("add_input_value");
     addrow.style.display = "none";
+    var addrow = document.getElementById("add_compound_value");
+    addrow.style.display = "none";
     document.getElementById('hidden_div').value = 1;
     document.getElementById('hidden_input_div').value = 0;
+    document.getElementById('compound_hidden_div').value = 0;
   } else if(selected.value == "Input type"){
     var addrow = document.getElementById("add_dropdown_value");
     addrow.style.display = "none";
     var addrow = document.getElementById("add_input_value");
     addrow.style.display = "block";
+    var addrow = document.getElementById("add_compound_value");
+    addrow.style.display = "none";
     document.getElementById('hidden_input_div').value = 1;
     document.getElementById('hidden_div').value = 0;
+    document.getElementById('compound_hidden_div').value = 0;
+  }else if(selected.value == "Compound type"){
+    var addrow = document.getElementById("add_dropdown_value");
+    addrow.style.display = "none";
+    var addrow = document.getElementById("add_input_value");
+    addrow.style.display = "none";
+    var addrow = document.getElementById("add_compound_value");
+    addrow.style.display = "block";
+    document.getElementById('hidden_input_div').value = 0;
+    document.getElementById('hidden_div').value = 0;
+    document.getElementById('compound_hidden_div').value = 1;
   }
-  
 }
 
 var count = 1;
@@ -302,10 +365,26 @@ function add_input_value(event){
   var maindiv = document.getElementById("input_field");
   var addeddiv = document.createElement('div');
   addeddiv.innerHTML = '<input name="input'+inputcount+'" class="form-control" type="text" placeholder="Input value '+inputcount+'" required="true"> ';
-  var hiddendiv = document.getElementById('hidden_div');
+  var hiddendiv = document.getElementById('hidden_input_div');
   hiddendiv.innerHTML = '<input name="input_total" style="display: none" class="form-control" type="text" id="hidden_input_div" value="'+inputcount+'" > ';
   if(inputcount > 2){
-    document.getElementById("hidden_div").remove();
+    document.getElementById("hidden_input_div").remove();
+  }
+  maindiv.appendChild(addeddiv);
+  maindiv.appendChild(hiddendiv);
+  
+}
+
+var comcount = 1;
+function compound_add_dropdown_value(event){
+  comcount++;
+  var maindiv = document.getElementById("compound_dropdown_field");
+  var addeddiv = document.createElement('div');
+  addeddiv.innerHTML = '<input name="compound'+comcount+'" class="form-control" type="text" placeholder="Dropdown value '+comcount+'" required="true"> ';
+  var hiddendiv = document.getElementById('compound_hidden_div');
+  hiddendiv.innerHTML = '<input name="compound_total" style="display: none" class="form-control" type="text" id="compound_hidden_div" value="'+comcount+'" > ';
+  if(comcount > 2){
+    document.getElementById("compound_hidden_div").remove();
   }
   maindiv.appendChild(addeddiv);
   maindiv.appendChild(hiddendiv);
@@ -335,3 +414,16 @@ function colorchange(event){
 //     return;
 //   }
 // }
+
+function percentage(event){
+  var inputfield = document.getElementById(event.target.id);
+  inputfield.type = "text";
+  var percentage = '%';
+  inputfield.value = inputfield.value +percentage;
+}
+
+function changetype(event){
+  var inputfield = document.getElementById(event.target.id);
+  inputfield.type = "number";
+  
+}

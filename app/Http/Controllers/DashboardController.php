@@ -62,22 +62,39 @@ class DashboardController extends Controller
         
         $count = $req->total;
         $incount = $req->input_total;
-
-        if ($count == 1 || $count > 1) {
+        $comcount = $req->compound_total;
+        if ($count > 0) {
             for ($i=0; $i < $count; $i++) {              
                 $dropdownvalue = new DropdownValue;
                 $dropdownvalue->name = $req->input($i+1);
                 $carditem->dropdownvalues()->save($dropdownvalue);
             }
-        } else {
+        } else if($incount > 0){
             for ($i=0; $i < $incount; $i++) { 
                 $inputvalue = new InputValue;
                 $index = $i+1;
                 $inputvalue->name = $req->input("input$index");
                 $carditem->inputvalues()->save($inputvalue);
             }
-        }
+        }else if($comcount > 0){
+            $inputvalue1 = new InputValue;
+            $inputvalue1->name = $req->input("compound_input1");
+            $carditem->inputvalues()->save($inputvalue1);
+            $inputvalue2 = new InputValue;
+            $inputvalue2->name = $req->input("compound_input2");
+            $carditem->inputvalues()->save($inputvalue2);
+            for ($i=0; $i < $comcount; $i++) {              
+                $dropdownvalue = new DropdownValue;
+                $index = $i+1;
+                $dropdownvalue->name = $req->input("compound$index");
+                $carditem->dropdownvalues()->save($dropdownvalue);
+            }
 
+        }
+        
+            
+            
+            
         return redirect()->route('home');
     }
 

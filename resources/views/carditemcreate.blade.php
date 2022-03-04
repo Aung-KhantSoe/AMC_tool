@@ -47,6 +47,7 @@
                             <option value="">Choose type</option>
                             <option value="Input type">Input type</option>
                             <option value="Dropdown type" >Dropdown type</option>
+                            <option value="Compound type" >Compound type</option>
                         </select>
                     </div>
                     </div>
@@ -80,6 +81,32 @@
                       <div class="col-sm-6">
                           <button type="button" onclick="add_input_value(event)" class="btn btn-success me-3" >Plus</button>
                       </div>                  
+                  </div>
+                </div>
+                {{--compound hidden --}}
+                <div class="row " style="display: none" id="add_compound_value">
+                  <div class="col-sm-6">
+                      <div class="mb-3" id="compound_input_field1">         
+                          <label>Compound values</label>
+                          <div>
+                              <input name="compound_input1" class="form-control" type="text" placeholder="Input Label" > 
+                          </div>                  
+                      </div>                     
+                      <div class="mb-3" id="compound_dropdown_field">         
+                          <div>
+                              <input name="compound1" class="form-control" type="text" placeholder="Dropdown value" > 
+                              <input name="compound_total" style="display: none" class="form-control" type="text" id="compound_hidden_div" value="0" >                      
+                          </div>                  
+                      </div>
+                      <div class="col-sm-6">
+                          <button type="button" onclick="compound_add_dropdown_value(event)" class="btn btn-success me-3" >Plus</button>
+                      </div> 
+                      <div class="mb-3 mt-3" id="compound_input_field2">         
+                        <div>
+                            <input name="compound_input2" class="form-control" type="text" placeholder="Input Label" > 
+                        </div>                  
+                      </div>                      
+                                 
                   </div>
                 </div>
 
