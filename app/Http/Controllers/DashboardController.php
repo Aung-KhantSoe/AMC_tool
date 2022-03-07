@@ -7,6 +7,10 @@ use App\Card;
 use App\CardItem;
 use App\DropdownValue;
 use App\InputValue;
+use App\Project;
+use App\User;
+use App\UserHasProject;
+use Auth;
 
 
 class DashboardController extends Controller
@@ -27,7 +31,9 @@ class DashboardController extends Controller
     }
 
     public function projects(){
-        return view('projects');
+        $user = Auth::user();
+        $user_has_projects = UserHasProject::where('user_id',$user->id)->get();
+        return view('projects',compact('user_has_projects'));
     }
 
     public function projectcreate(){
@@ -108,7 +114,7 @@ class DashboardController extends Controller
             
             
             
-        return redirect()->route('home');
+        return redirect()->route('cards');
     }
 
     public function deletecard($id){
@@ -144,5 +150,33 @@ class DashboardController extends Controller
         $carditem->delete();
 
         return redirect()->route('home');
+    }
+
+    public function addproject(Request $req){
+        $validated = $req->validate([
+            'name' => 'required',
+            'end_date_time' => 'required',
+        ],
+        [
+            'name.required' => 'Project Name is required.',
+            'end_date_time.required' => 'End date is required.',
+        ]
+        );
+
+        $user_has_projects = new UserHasProject;
+
+        $project = new Project;
+        $project->name = $req->name;
+        $project->photo = $req->photo;
+        $project->status = $req->status;
+        $project->end_date_time = $req->end_date_time;
+        $project->save();
+
+        $user = Auth::user();
+        
+        $user_has_projects->user_id = $user->id;
+        $user_has_projects->project_id = $project->id;
+        $user_has_projects->save();
+        return redirect()->route('projects');
     }
 }

@@ -22,9 +22,9 @@ Route::get('/carditemcreate','DashboardController@carditemcreate')->name('cardit
 Route::get('/deletecard/{id}','DashboardController@deletecard')->name('deletecard');
 Route::get('/deletecarditem/{id}','DashboardController@deletecarditem')->name('deletecarditem');
 
-
 Route::post('/addcard','DashboardController@addcard')->name('addcard');
 Route::post('/addcarditem','DashboardController@addcarditem')->name('addcarditem');
+Route::post('/addproject','DashboardController@addproject')->name('addproject');
 });
 
 Auth::routes();

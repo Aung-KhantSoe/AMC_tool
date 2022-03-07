@@ -25,10 +25,18 @@
             <div class="card-body">
             <div class="tab-content" id="top-tabContent">
                 <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                    {{-- @php
+                    $projects = DB::table('projects')->where('project_id', $user_has_projects->project_id)->get();
+                    @endphp --}}
+                    @if (count($user_has_projects) > 0)
                     <div class="row">
+                        @foreach ($user_has_projects as $user_has_project)
+                        @php
+                            $project = DB::table('projects')->where('id', $user_has_project->project_id)->first();
+                        @endphp
                         <div class="col-xxl-4 col-lg-6">
-                            <div class="project-box"><span class="badge badge-primary">Doing</span>
-                                <h6>Target Audience Generator</h6>
+                            <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">Doing</span>
+                                <h6>{{$project->name}}</h6>
                                     <div class="media"><img class="img-20 me-2 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
                                         <div class="media-body">
                                             <p>{{Auth::user()->name}}</p>
@@ -39,10 +47,18 @@
                                     <div class="col-6 font-primary">12 </div>
                                     <div class="col-6"><span>Card Items</span></div>
                                     <div class="col-6 font-primary">12 </div>
-                                </div>        
+                                </div>
+                                <button type="button" class="btn btn-primary mt-2">Target Audience Generator</button>
+                                <button type="button" class="btn btn-danger mt-2">Content Strategy Creator</button>
+                                <button type="button" class="btn btn-warning mt-2">Copywriting Workflow</button>        
                             </div>
                         </div>
-                    </div>  
+                        
+                        @endforeach
+                    </div> 
+                    @else
+                    <div class="row"><h6 class="txt-secondary mb-4" style="text-align:center">No Project yet...</h6></div> 
+                    @endif
                 </div>
                 
             </div>
