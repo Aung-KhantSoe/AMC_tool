@@ -6,7 +6,7 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-body">
-            <form action="{{route('addproject')}}" method="POST">
+            <form action="{{route('addflow')}}" method="POST">
               @csrf
               @if ($errors->any())
                   <div class="alert alert-danger">
@@ -21,13 +21,14 @@
                 <div class="row">
                   <div class="col">
                     <div class="mb-3">
-                      <label>Project Title</label>
-                      <input class="form-control" type="text" placeholder="Project name *" name="name">
+                      <label>Flow name</label>
+                      <input class="form-control" type="text" placeholder="Flow name *" name="name">
+                      <input class="form-control" type="text" name="project_id" value="{{$id}}" style="display: none">
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  {{-- <div class="col-sm-4">
+                {{-- <div class="row">
+                  <div class="col-sm-4">
                     <div class="mb-3">
                       <label>Project Flow</label>
                       <select class="form-select">
@@ -36,7 +37,7 @@
                         <option value="Copywriting Workflow">Copywriting Workflow</option>
                       </select>
                     </div>
-                  </div> --}}
+                  </div>
                   
                   <div class="col-sm-4">
                     <div class="mb-3">
@@ -44,10 +45,10 @@
                       <input class="form-control" type="date" data-language="en" name="end_date_time">
                     </div>
                   </div>
-                </div>
+                </div> --}}
                 <div class="row">
                   <div class="col">
-                    <div class="text-end"><button type="submit" class="btn btn-secondary me-3">Add</button><a class="btn btn-danger" href="{{route('cards')}}">Cancel</a></div>
+                    <div class="text-end"><button type="submit" class="btn btn-secondary me-3">Add</button><a class="btn btn-danger" href="{{route('projects')}}">Cancel</a></div>
                   </div>
                 </div>
               </div>

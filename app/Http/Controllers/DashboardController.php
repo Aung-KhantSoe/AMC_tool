@@ -10,6 +10,9 @@ use App\InputValue;
 use App\Project;
 use App\User;
 use App\UserHasProject;
+use App\Flow;
+use App\ProjectHasFlow;
+use App\FlowHasUidata;
 use Auth;
 
 
@@ -17,17 +20,25 @@ class DashboardController extends Controller
 {
    
     //
-    public function index(){
-        $cards = Card::all();       
-        return view('welcome',compact('cards'));
+    // public function index(){       
+    //     return view('home');
+    // }
+    
+    public function cards($id){
+        $flow_id = $id;
+        $flow = Flow::where('id',$flow_id)->first();
+        $flow_name = $flow->name;
+        $cards = Card::where('flow_id', $flow_id)->get();       
+        return view('welcome',compact('cards','flow_id','flow_name'));
     }
     
     public function dashboard(){
         return view('admindashboard');
     }
 
-    public function cardcreate(){
-        return view('cardcreate');
+    public function cardcreate($id){
+        $flow_id = $id;
+        return view('cardcreate',compact('flow_id'));
     }
 
     public function projects(){
@@ -40,6 +51,10 @@ class DashboardController extends Controller
         return view('projectcreate');
     }
 
+    public function flowcreate($id){       
+        return view('flowcreate',compact("id"));
+    }
+
     public function addcard(Request $req){
         $validated = $req->validate([
             'card_title' => 'required',
@@ -49,14 +64,17 @@ class DashboardController extends Controller
         $card = new Card;
         $card->title = $req->card_title;
         $card->color = $req->color;
+        $card->flow_id = $req->flow_id;
         $card->save();
 
-        return redirect()->route('dashboard');
+        $flow_id = $req->flow_id;
+        return redirect()->route('cards',$flow_id);
     }
 
-    public function carditemcreate(){
-        $cards = Card::all();
-        return view('carditemcreate',compact('cards'));
+    public function carditemcreate($id){
+        $flow_id = $id;
+        $cards = Card::where('flow_id',$flow_id)->get();
+        return view('carditemcreate',compact('cards','flow_id'));
     }
 
     public function addcarditem(Request $req){
@@ -111,10 +129,10 @@ class DashboardController extends Controller
 
         }
         
+        $flow_id = $req->flow_id;
             
             
-            
-        return redirect()->route('cards');
+        return redirect()->route('cards',$flow_id);
     }
 
     public function deletecard($id){
@@ -177,6 +195,22 @@ class DashboardController extends Controller
         $user_has_projects->user_id = $user->id;
         $user_has_projects->project_id = $project->id;
         $user_has_projects->save();
+        return redirect()->route('projects');
+    }
+
+    public function addflow(Request $req){
+        $validated = $req->validate([
+            'name' => 'required',
+        ]);
+        $flow = new Flow;
+        $flow->name = $req->name;
+        $flow->save();
+
+        $project_has_flow = new ProjectHasFlow;
+        $project_has_flow->flow_id = $flow->id;
+        $project_has_flow->project_id = $req->project_id;
+        $project_has_flow->save();
+
         return redirect()->route('projects');
     }
 }

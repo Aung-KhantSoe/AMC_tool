@@ -14,4 +14,9 @@ class Flow extends Model
     protected $fillable = [
         'name', 'step', 'document_format',
     ];
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class);
+    }
 }

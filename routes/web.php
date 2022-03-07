@@ -13,18 +13,21 @@ use App\Http\Controllers\DashboardController;
 |
 */
 Route::middleware('auth')->group(function () {
-Route::get('/', 'DashboardController@index')->name('cards');
-Route::get('/projects', 'DashboardController@projects')->name('projects');
+Route::get('/', 'DashboardController@projects')->name('projects');
+Route::get('/cards/{id}', 'DashboardController@cards')->name('cards');
+//Route::get('/projects', 'DashboardController@projects')->name('projects');
 Route::get('/projectcreate','DashboardController@projectcreate')->name('projectcreate');
+Route::get('/flowcreate/{id}','DashboardController@flowcreate')->name('flowcreate');
 Route::get('/dashboard','DashboardController@dashboard')->name('dashboard');
-Route::get('/cardcreate','DashboardController@cardcreate')->name('cardcreate');
-Route::get('/carditemcreate','DashboardController@carditemcreate')->name('carditemcreate');
+Route::get('/cardcreate/{id}','DashboardController@cardcreate')->name('cardcreate');
+Route::get('/carditemcreate/{id}','DashboardController@carditemcreate')->name('carditemcreate');
 Route::get('/deletecard/{id}','DashboardController@deletecard')->name('deletecard');
 Route::get('/deletecarditem/{id}','DashboardController@deletecarditem')->name('deletecarditem');
 
 Route::post('/addcard','DashboardController@addcard')->name('addcard');
 Route::post('/addcarditem','DashboardController@addcarditem')->name('addcarditem');
 Route::post('/addproject','DashboardController@addproject')->name('addproject');
+Route::post('/addflow','DashboardController@addflow')->name('addflow');
 });
 
 Auth::routes();

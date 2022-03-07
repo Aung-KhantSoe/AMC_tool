@@ -25,11 +25,10 @@
                 <hr style="border-top: 3px solid #24695C;border-radius: 5px;">
                 <ul class="nav_links">    
                   <li><a href="{{route('dashboard')}}">Dashboard</a></li>
-                  <li><a href="{{route('cards')}}">Home</a></li>
-                  <li><a href="{{route('projects')}}">All Projects</a></li>
+                  <li><a href="{{route('home')}}">All Projects</a></li>
                   <li><a href="{{route('projectcreate')}}">Create New Project</a></li>
-                  <li><a href="{{route('cardcreate')}}">Create New Card</a></li>
-                  <li><a href="{{route('carditemcreate')}}">Create New Item</a></li>
+                  {{-- <li><a href="{{route('cardcreate')}}">Create New Card</a></li>
+                  <li><a href="{{route('carditemcreate')}}">Create New Item</a></li> --}}
                   <li><a href="{{route('logout')}}">Logout</a></li>
                 </ul> 
               </div>            

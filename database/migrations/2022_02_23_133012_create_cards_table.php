@@ -17,7 +17,9 @@ class CreateCardsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('color');
+            $table->foreignId('flow_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

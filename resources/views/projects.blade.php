@@ -33,6 +33,7 @@
                         @foreach ($user_has_projects as $user_has_project)
                         @php
                             $project = DB::table('projects')->where('id', $user_has_project->project_id)->first();
+                            $project_has_flows = DB::table('project_has_flows')->where('project_id', $user_has_project->project_id)->get();
                         @endphp
                         <div class="col-xxl-4 col-lg-6">
                             <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">Doing</span>
@@ -43,14 +44,19 @@
                                         </div>
                                     </div>                       
                                 <div class="row details">
-                                    <div class="col-6"><span>Cards </span></div>
-                                    <div class="col-6 font-primary">12 </div>
-                                    <div class="col-6"><span>Card Items</span></div>
-                                    <div class="col-6 font-primary">12 </div>
+                                    <div class="col-6"><span>Created</span></div>
+                                    <div class="col-6 font-primary">{{$project->created_at}} </div>
+                                    <div class="col-6"><span>End Date</span></div>
+                                    <div class="col-6 font-primary">{{$project->end_date_time}} </div>
                                 </div>
-                                <button type="button" class="btn btn-primary mt-2">Target Audience Generator</button>
-                                <button type="button" class="btn btn-danger mt-2">Content Strategy Creator</button>
-                                <button type="button" class="btn btn-warning mt-2">Copywriting Workflow</button>        
+                                <a href="{{route('flowcreate',$project->id)}}"><button type="button" class="btn btn-primary mt-2">Create new flow</button></a>
+                                @foreach ($project_has_flows as $project_has_flow) 
+                                @php
+                                    $flow = DB::table('flows')->where('id', $project_has_flow->flow_id)->first();
+                                @endphp                              
+                                <a href="{{route('cards',$flow->id)}}" class="btn btn-primary mt-2">{{$flow->name}}</a>
+                                @endforeach
+                            
                             </div>
                         </div>
                         

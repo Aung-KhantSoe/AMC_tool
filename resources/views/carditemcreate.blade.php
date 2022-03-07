@@ -35,6 +35,7 @@
                     <div class="mb-3">
                       <label>Card Item Name</label>
                       <input name="name" class="form-control" type="text" placeholder="Card Item Name" >
+                      <input name="flow_id" type="text" hidden="true" value="{{$flow_id}}">
                     </div>
                   </div>
                 </div>
@@ -115,7 +116,7 @@
                   <div class="col">
                     <div class="text-end">
                         <button type="submit" class="btn btn-secondary me-3" >Add</button>
-                        <a href="{{route('cards')}}"><button type="button" class="btn btn-danger" >Cancel</button></a>
+                        <a href="{{route('projects')}}"><button type="button" class="btn btn-danger" >Cancel</button></a>
                     </div>
                   </div>
                 </div>
