@@ -7,8 +7,8 @@
         <h4 style="font-weight: bold">{{$flow_name}}</h4>
       </div>
       <div class="pb-5">
-        <a href="{{route('cardcreate',$flow_id)}}"><button type="button" class="btn btn-success" >Create New Card</button></a>
-        <a href="{{route('carditemcreate',$flow_id)}}"><button type="button" class="btn btn-warning" >Create New Item</button></a>
+        <a href="{{route('cardcreate',Crypt::encrypt($flow_id))}}"><button type="button" class="btn btn-success" >Create New Card</button></a>
+        <a href="{{route('carditemcreate',Crypt::encrypt($flow_id))}}"><button type="button" class="btn btn-warning" >Create New Item</button></a>
       </div>
       <div class="lists" id="lists">
   
@@ -22,7 +22,7 @@
               {{-- header --}}
               <div class="list-item">
                 <h4 id="{{$card->title}}">{{$card->title}}<i style="float:left;font-size:15px;" class="fa fa-eye" onclick="togglecard(event)" ></i></h4> 
-                <a  onclick="return confirm('Are you sure to delete this card?')" href="{{route('deletecard', ['id' => $card->id])}}"><i style="float:right;font-size:15px;" class="fa fa-trash-o" ></i></a>
+                <a  onclick="return confirm('Are you sure to delete this card?')" href="{{route('deletecard', ['id' => Crypt::encrypt($card->id)])}}"><i style="float:right;font-size:15px;" class="fa fa-trash-o" ></i></a>
               </div> 
 
               @foreach ($items as $item)
@@ -32,7 +32,7 @@
               @endphp
               
               <div class="list-item bg-{{$card->color}} {{$card->id}}" ondragstart="dragStart(event)" ondrag="dragging(event)" draggable="true" id="{{$item->name}}{{$item->id}}">            
-                <a  onclick="return confirm('Are you sure to delete this item?')" href="{{route('deletecarditem', ['id' => $item->id])}}"><i style="float:left;font-size:15px;color:red;padding-right:10px;" class="fa fa-trash-o" ></i></a>
+                <a  onclick="return confirm('Are you sure to delete this item?')" href="{{route('deletecarditem', ['id' => Crypt::encrypt($item->id)])}}"><i style="float:left;font-size:15px;color:red;padding-right:10px;" class="fa fa-trash-o" ></i></a>
                 <i style="float:left; padding-right:10px;" class="fa fa-eye" onclick="toggleview(event)" id="{{$item->name}}{{$item->id}}_eye'"></i>
                 <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
                 <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event)" id="{{$item->name}}{{$item->id}}_drop"></i>
@@ -94,7 +94,8 @@
           <p class="center" id="drophere">Drop here!</p>
         </div>
         <div>
-          <button type="button" class="btn btn-success" >Export</button>
+          <button type="button" class="btn btn-success" onclick="showallchild()">Export</button>
+          <input id="all_data" name="all_data" value="">
         </div>
         
       </div>

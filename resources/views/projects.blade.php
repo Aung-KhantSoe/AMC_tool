@@ -49,12 +49,12 @@
                                     <div class="col-6"><span>End Date</span></div>
                                     <div class="col-6 font-primary">{{$project->end_date_time}} </div>
                                 </div>
-                                <a href="{{route('flowcreate',$project->id)}}"><button type="button" class="btn btn-primary mt-2">Create new flow</button></a>
+                                <a href="{{route('flowcreate',Crypt::encrypt($project->id))}}"><button type="button" class="btn btn-primary mt-2">Create new flow</button></a>
                                 @foreach ($project_has_flows as $project_has_flow) 
                                 @php
                                     $flow = DB::table('flows')->where('id', $project_has_flow->flow_id)->first();
                                 @endphp                              
-                                <a href="{{route('cards',$flow->id)}}" class="btn btn-primary mt-2">{{$flow->name}}</a>
+                                <a href="{{route('cards',Crypt::encrypt($flow->id))}}" class="btn btn-primary mt-2">{{$flow->name}}</a>
                                 @endforeach
                             
                             </div>

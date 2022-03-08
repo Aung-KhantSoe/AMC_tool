@@ -48,7 +48,7 @@
                   <div class="col">
                     <div class="text-end">
                         <button type="submit" class="btn btn-secondary me-3" >Add</button>
-                        <a href="{{route('cards',$flow_id)}}"><button type="button" class="btn btn-danger" >Cancel</button></a>
+                        <a href="{{route('cards',Crypt::encrypt($flow_id))}}"><button type="button" class="btn btn-danger" >Cancel</button></a>
                     </div>
                   </div>
                 </div>

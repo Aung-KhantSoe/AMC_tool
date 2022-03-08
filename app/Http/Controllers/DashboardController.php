@@ -14,6 +14,7 @@ use App\Flow;
 use App\ProjectHasFlow;
 use App\FlowHasUidata;
 use Auth;
+use Crypt;
 
 
 class DashboardController extends Controller
@@ -25,7 +26,7 @@ class DashboardController extends Controller
     // }
     
     public function cards($id){
-        $flow_id = $id;
+        $flow_id = Crypt::decrypt($id);
         $flow = Flow::where('id',$flow_id)->first();
         $flow_name = $flow->name;
         $cards = Card::where('flow_id', $flow_id)->get();       
@@ -37,7 +38,7 @@ class DashboardController extends Controller
     }
 
     public function cardcreate($id){
-        $flow_id = $id;
+        $flow_id = Crypt::decrypt($id);
         return view('cardcreate',compact('flow_id'));
     }
 
@@ -51,7 +52,8 @@ class DashboardController extends Controller
         return view('projectcreate');
     }
 
-    public function flowcreate($id){       
+    public function flowcreate($id){   
+        $id = Crypt::decrypt($id); 
         return view('flowcreate',compact("id"));
     }
 
@@ -68,11 +70,12 @@ class DashboardController extends Controller
         $card->save();
 
         $flow_id = $req->flow_id;
+        $flow_id = Crypt::encrypt($flow_id);
         return redirect()->route('cards',$flow_id);
     }
 
     public function carditemcreate($id){
-        $flow_id = $id;
+        $flow_id = Crypt::decrypt($id);
         $cards = Card::where('flow_id',$flow_id)->get();
         return view('carditemcreate',compact('cards','flow_id'));
     }
@@ -130,12 +133,13 @@ class DashboardController extends Controller
         }
         
         $flow_id = $req->flow_id;
-            
+        $flow_id = Crypt::encrypt($flow_id);
             
         return redirect()->route('cards',$flow_id);
     }
 
     public function deletecard($id){
+        $id = Crypt::decrypt($id);
         $card = Card::where('id',$id)->first();
         $carditems = CardItem::where('card_id',$id)->get();
         foreach($carditems as $carditem){
@@ -151,11 +155,11 @@ class DashboardController extends Controller
         }
         
         $card->delete();
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     public function deletecarditem($id){
-        
+        $id = Crypt::decrypt($id);
         $carditem = CardItem::where('id',$id)->first();       
         $dropdownvalues = DropdownValue::where('card_item_id',$id)->get();
         foreach ($dropdownvalues as $dropdownvalue) {
@@ -167,7 +171,7 @@ class DashboardController extends Controller
         }
         $carditem->delete();
 
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     public function addproject(Request $req){

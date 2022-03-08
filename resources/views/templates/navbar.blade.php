@@ -24,7 +24,7 @@
               <div style="padding: 10px">
                 <hr style="border-top: 3px solid #24695C;border-radius: 5px;">
                 <ul class="nav_links">    
-                  <li><a href="{{route('dashboard')}}">Dashboard</a></li>
+                  {{-- <li><a href="{{route('dashboard')}}">Dashboard</a></li> --}}
                   <li><a href="{{route('home')}}">All Projects</a></li>
                   <li><a href="{{route('projectcreate')}}">Create New Project</a></li>
                   {{-- <li><a href="{{route('cardcreate')}}">Create New Card</a></li>

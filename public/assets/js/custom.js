@@ -427,3 +427,12 @@ function changetype(event){
   inputfield.type = "number";
   
 }
+
+function showallchild(){
+  var children = document.getElementById('droptarget').children;
+  var arr=[];
+  for (let i = 0; i < children.length; i++) {   
+    arr.push(children[i].innerHTML);
+  }
+  document.getElementById('all_data').value = arr;
+}

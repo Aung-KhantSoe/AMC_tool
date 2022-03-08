@@ -47,7 +47,7 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <div class="text-end"><button type="submit" class="btn btn-secondary me-3">Add</button><a class="btn btn-danger" href="{{route('cards')}}">Cancel</a></div>
+                    <div class="text-end"><button type="submit" class="btn btn-secondary me-3">Add</button><a class="btn btn-danger" href="{{route('projects')}}">Cancel</a></div>
                   </div>
                 </div>
               </div>
