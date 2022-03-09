@@ -58,8 +58,11 @@ function drop(event) {
       para.setAttribute("id", "droppeditem");
       //get title and choose value of dropped card
       var text = document.getElementById(data + "_" + "title").innerText + " : " + document.getElementById(data + "_" + "choose_value").value;
-      var textnode = document.createTextNode(text);
-      para.appendChild(textnode);
+      var inputnode = document.createElement('input');
+      inputnode.className = "droppedinput";
+      inputnode.setAttribute("value",text);
+      para.appendChild(inputnode);
+      
       //added title and choose value to target
       event.target.appendChild(para);
     } else {
@@ -75,14 +78,17 @@ function drop(event) {
         para.setAttribute("id", "droppeditem");
         //get title and input value of dropped card
         var text;
-        if (document.getElementById(data).innerText == "AIDA") {
-          text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
+        if (children[i].placeholder) {
+          text = children[i].placeholder + " : " + children[i].value;
         } else {
           text = document.getElementById(data).innerText + " : " + children[i].value;
         }
-        //var text = document.getElementById(data+"_"+"title").innerText +" : "+ document.getElementById(data+"_"+"input_value").value;
-        var textnode = document.createTextNode(text);
-        para.appendChild(textnode);
+        
+       //var textnode = document.createTextNode(text);
+        var inputnode = document.createElement('input');
+        inputnode.className = "droppedinput";
+        inputnode.setAttribute("value",text);
+        para.appendChild(inputnode);
         //added title and input value to target
         event.target.appendChild(para);
       };
@@ -114,13 +120,20 @@ function drop(event) {
         var text3 = input2.placeholder+ " : " + input2.value;
 
         //var text = document.getElementById(data+"_"+"title").innerText +" : "+ document.getElementById(data+"_"+"input_value").value;
-        var textnode1 = document.createTextNode(text1);
-        var textnode2 = document.createTextNode(text2);
-        var textnode3 = document.createTextNode(text3);
-
-        para1.appendChild(textnode1);
-        para2.appendChild(textnode2);
-        para3.appendChild(textnode3);
+        
+        var inputnode1 = document.createElement('input');
+        inputnode1.className = "droppedinput";
+        inputnode1.setAttribute("value",text1);
+        var inputnode2 = document.createElement('input');
+        inputnode2.className = "droppedinput";
+        inputnode2.setAttribute("value",text2);
+        var inputnode3 = document.createElement('input');
+        inputnode3.className = "droppedinput";
+        inputnode3.setAttribute("value",text3);
+        
+        para1.appendChild(inputnode1);
+        para2.appendChild(inputnode2);
+        para3.appendChild(inputnode3);
 
         //added title and input value to target
         event.target.appendChild(para1);
@@ -133,6 +146,7 @@ function drop(event) {
     }
 
   }
+  nameallchild();
 }
 
 
@@ -165,35 +179,49 @@ function modalokclick() {
     var para = document.createElement("p");
     para.setAttribute("id", "droppeditem");
     var text;
-    if (document.getElementById("modal_title").innerText == "AIDA") {
-      text = "AIDA".substring(i, i + 1) + " : " + children[i].value;
-    } else {
+    
       if (children[i].placeholder) {
         text = children[i].placeholder + " : " + children[i].value;
       } else {
         text = document.getElementById("modal_title").innerText + " : " + children[i].value;
       }
       
-    }
+      var inputnode = document.createElement('input');
+      inputnode.className = "droppedinput";
+      inputnode.setAttribute("value",text);
 
-    var textnode = document.createTextNode(text);
-    para.appendChild(textnode);
+    
+    para.appendChild(inputnode);
     document.getElementById("droptarget").appendChild(para);
+    nameallchild()
   }
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
 }
 
+
+
 function toggledropdown(event) {
   var id = event.target.parentNode.id;
   if (document.getElementById(id + "_body").style.display == "block") {
+   
     document.getElementById(id + "_body").style.display = "none";
-    document.getElementById(id + "_drop").className = "fa fa-chevron-down";
-  } else {
+    document.getElementById(id + "_down").className = "fa fa-chevron-down";
+  } else if (document.getElementById(id + "_body").style.display == "none"){
+   
     document.getElementById(id + "_body").style.display = "block";
-    document.getElementById(id + "_drop").className = "fa fa-chevron-up";
+    document.getElementById(id + "_down").className = "fa fa-chevron-up";
   }
+  
+  
 
+}
+
+function test(event){
+  var id = event.target.parentNode.id;
+  alert(id);
+  document.getElementById(id).style.display = "none";
+  
 }
 
 function toggleview(event) {
@@ -428,11 +456,17 @@ function changetype(event){
   
 }
 
-function showallchild(){
+function nameallchild(){
   var children = document.getElementById('droptarget').children;
+  document.getElementById('child_count').value = children.length;
   var arr=[];
-  for (let i = 0; i < children.length; i++) {   
-    arr.push(children[i].innerHTML);
-  }
-  document.getElementById('all_data').value = arr;
+  // for (let i = 0; i < children.length; i++) {   
+  //   arr.push(children[i].value );
+  // }
+  // document.getElementById('all_data').value = arr;
+
+  for (let i = 0; i < children.length; i++) {  
+    
+    children[i].firstChild.name = i;
+    }
 }

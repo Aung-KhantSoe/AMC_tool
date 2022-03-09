@@ -1,7 +1,7 @@
 .droptarget {
 width: 90%; 
 min-height: 300px;
-max-height: 50%;
+max-height: auto;
 margin: 15px;
 padding-left: 50px;
 border: 2px dotted #24695C;
@@ -219,4 +219,9 @@ background-color: white;
   margin:0;
   padding:0;
   height:100%;
+ }
+
+ .droppedinput{
+   border: none;
+   width: 50%;
  }

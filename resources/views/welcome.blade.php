@@ -14,9 +14,9 @@
   
         @if (count($cards)>0)
           @foreach ($cards as $card)
-          @php
-            $items = DB::table('card_items')->where('card_id', $card->id)->get();
-          @endphp
+            @php
+              $items = DB::table('card_items')->where('card_id', $card->id)->get();
+            @endphp
           
             <div class="list" id="{{$card->id}}">
               {{-- header --}}
@@ -26,78 +26,82 @@
               </div> 
 
               @foreach ($items as $item)
-              @php
-              $dropdown_values = DB::table('dropdown_values')->where('card_item_id', $item->id)->get();
-              $input_values = DB::table('input_values')->where('card_item_id', $item->id)->get();
-              @endphp
-              
-              <div class="list-item bg-{{$card->color}} {{$card->id}}" ondragstart="dragStart(event)" ondrag="dragging(event)" draggable="true" id="{{$item->name}}{{$item->id}}">            
-                <a  onclick="return confirm('Are you sure to delete this item?')" href="{{route('deletecarditem', ['id' => Crypt::encrypt($item->id)])}}"><i style="float:left;font-size:15px;color:red;padding-right:10px;" class="fa fa-trash-o" ></i></a>
-                <i style="float:left; padding-right:10px;" class="fa fa-eye" onclick="toggleview(event)" id="{{$item->name}}{{$item->id}}_eye'"></i>
-                <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
-                <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event)" id="{{$item->name}}{{$item->id}}_drop"></i>
-                @if ($item->type == "Input type")
-                  <div class="custom_input input" id="{{$item->name}}{{$item->id}}_body">
-                    @foreach ($input_values as $input_value)
-                    <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value" type="text" placeholder="{{$input_value->name}}">                                
-                    @endforeach              
-                  </div>
-                @elseif ($item->type == "Dropdown type")
-                  <div class="dropdown-basic pb-1 dropdown" id="{{$item->name}}{{$item->id}}_body">
-                    <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
-                        <option value="">Your {{$item->name}}</option>
-                        @foreach ($dropdown_values as $dropdown_value)
-                        <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
-                        @endforeach                    
-                    </select>
-                  </div>
-                @elseif ($item->type == "Compound type")
-                  <div class="dropdown-basic pb-1 compound" id="{{$item->name}}{{$item->id}}_body">
-                    
-                      <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value1" type="text" placeholder="{{$input_values[0]->name}}">                                
-                  
-                    
-                      <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
-                        <option value="">Your {{$item->name}}</option>
-                        @foreach ($dropdown_values as $dropdown_value)
-                        <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
-                        @endforeach                    
-                      </select>
-                  
-                    
-                      <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100" onclick="changetype(event)" onblur="percentage(event)" placeholder="{{$input_values[1]->name}}">                                
-                    
-                  </div>
-                @endif        
-              </div>
+                @php
+                $dropdown_values = DB::table('dropdown_values')->where('card_item_id', $item->id)->get();
+                $input_values = DB::table('input_values')->where('card_item_id', $item->id)->get();
+                @endphp
+                
+                <div class="list-item bg-{{$card->color}} {{$card->id}}" ondragstart="dragStart(event)" ondrag="dragging(event)" draggable="true" id="{{$item->name}}{{$item->id}}">            
+                  <a  onclick="return confirm('Are you sure to delete this item?')" href="{{route('deletecarditem', ['id' => Crypt::encrypt($item->id)])}}"><i style="float:left;font-size:15px;color:red;padding-right:10px;" class="fa fa-trash-o" ></i></a>
+                  <i style="float:left; padding-right:10px;" class="fa fa-eye" onclick="toggleview(event);" id="{{$item->name}}{{$item->id}}_eye'"></i>
+                  <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
+                  <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event);" id="{{$item->name}}{{$item->id}}_down"></i>
+                  @if ($item->type == "Input type")
+                    <div class="custom_input input" id="{{$item->name}}{{$item->id}}_body" style="display: none">
+                      @foreach ($input_values as $input_value)
+                      <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value" type="text" placeholder="{{$input_value->name}}">                                
+                      @endforeach              
+                    </div>
+                  @elseif ($item->type == "Dropdown type")
+                    <div class="dropdown-basic pb-1 dropdown" id="{{$item->name}}{{$item->id}}_body" style="display: none">
+                        <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
+                            <option value="">Your {{$item->name}}</option>
+                            @foreach ($dropdown_values as $dropdown_value)
+                            <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
+                            @endforeach                    
+                        </select>
+                    </div>
+                  @elseif ($item->type == "Compound type")
+                    <div class="dropdown-basic pb-1 compound" id="{{$item->name}}{{$item->id}}_body" style="display: none">     
+                        <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value1" type="text" placeholder="{{$input_values[0]->name}}">                                
+                        <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
+                          <option value="">Your {{$item->name}}</option>
+                          @foreach ($dropdown_values as $dropdown_value)
+                          <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
+                          @endforeach                    
+                        </select>
+                        <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100" onclick="changetype(event)" onblur="percentage(event)" placeholder="{{$input_values[1]->name}}">                                                    
+                    </div>
+                  @endif        
+                </div>
               @endforeach           
                 
             </div>
           @endforeach
         @else
-          
-            {{-- header --}}
             <div >
               <h4 class="txt-secondary" style="font-weight:600">No Card yet ...</h4> 
             </div> 
           
         @endif
         
+     
+    </div>
 
-        
-      </div>
-
-      </div>
+    </div>
 
       <div class="row" id="droprow">
-        <div class="droptarget" id="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)">
-          <p class="center" id="drophere">Drop here!</p>
-        </div>
-        <div>
-          <button type="button" class="btn btn-success" onclick="showallchild()">Export</button>
-          <input id="all_data" name="all_data" value="">
-        </div>
-        
+        <form action="{{route('adduidatas')}}" method="POST">
+          @csrf
+          <div class="droptarget" id="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)">
+            
+            @php
+              $decoded = json_decode($uidatas->written_content_data);
+            @endphp
+            @if (count($decoded) == 0)
+            <p class="center" id="drophere" name="drophere" value="dropvalue">Drop here!</p>
+            @endif
+            @for ($i =0 ; $i < count($decoded); $i++)
+            <p id="droppeditem"><input class="droppedinput" value="{{$decoded[$i]}}" name="{{$i}}"></p>
+            @endfor
+          </div>
+            <input id="child_count" name="child_count" value="{{count($decoded)}}" hidden>
+            <input name="flow_id" value="{{$flow_id}}" hidden>
+          <div>
+            <button type="submit" class="btn btn-success" >Save</button>
+            <a onclick="return confirm('Please click Export only after Save')" href="{{route('generateppt',$flow_id)}} "<button type="button" class="btn btn-success" >Export</button></a>          
+          </div>
+        </form>
       </div>
       
 
@@ -121,7 +125,7 @@
           </div>
         </div>
       </div>
-    </div>
+    
 
   
 @include('templates.footer')

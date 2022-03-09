@@ -29,8 +29,9 @@ class DashboardController extends Controller
         $flow_id = Crypt::decrypt($id);
         $flow = Flow::where('id',$flow_id)->first();
         $flow_name = $flow->name;
-        $cards = Card::where('flow_id', $flow_id)->get();       
-        return view('welcome',compact('cards','flow_id','flow_name'));
+        $cards = Card::where('flow_id', $flow_id)->get();
+        $uidatas = FlowHasUidata::where('flow_id', $flow_id)->first();       
+        return view('welcome',compact('cards','flow_id','flow_name','uidatas'));
     }
     
     public function dashboard(){
@@ -216,5 +217,30 @@ class DashboardController extends Controller
         $project_has_flow->save();
 
         return redirect()->route('projects');
+    }
+
+    public function adduidatas(Request $req){
+
+        $count = $req->child_count;
+        $array = array();
+        $flow_id = $req->flow_id;
+
+        for ($i=0; $i < $count; $i++) { 
+            array_push($array,$req->input($i));  
+        }
+        $str = str_replace("'", "\'", json_encode($array));
+
+        if (FlowHasUidata::where('flow_id',$flow_id)->first()) {
+            FlowHasUidata::where('flow_id', $flow_id)->update(["written_content_data" => $str]);
+        }else{
+            $uidatas = new FlowHasUidata;
+            $uidatas->written_content_data =  $str;
+            $uidatas->flow_id = $flow_id;
+            $uidatas->save();
+        }
+
+        
+        
+        return redirect()->back();
     }
 }
