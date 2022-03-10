@@ -35,7 +35,7 @@
                   <a  onclick="return confirm('Are you sure to delete this item?')" href="{{route('deletecarditem', ['id' => Crypt::encrypt($item->id)])}}"><i style="float:left;font-size:15px;color:red;padding-right:10px;" class="fa fa-trash-o" ></i></a>
                   <i style="float:left; padding-right:10px;" class="fa fa-eye" onclick="toggleview(event);" id="{{$item->name}}{{$item->id}}_eye'"></i>
                   <h5 id="{{$item->name}}{{$item->id}}_title">{{$item->name}}</h5>
-                  <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event);" id="{{$item->name}}{{$item->id}}_down"></i>
+                  <i style="float: right" class="fa fa-chevron-down" onclick="toggledropdown(event)" id="{{$item->name}}{{$item->id}}_down"></i>
                   @if ($item->type == "Input type")
                     <div class="custom_input input" id="{{$item->name}}{{$item->id}}_body" style="display: none">
                       @foreach ($input_values as $input_value)
@@ -43,7 +43,7 @@
                       @endforeach              
                     </div>
                   @elseif ($item->type == "Dropdown type")
-                    <div class="dropdown-basic pb-1 dropdown" id="{{$item->name}}{{$item->id}}_body" style="display: none">
+                    <div class="dropdown_type" id="{{$item->name}}{{$item->id}}_body" style="display: none">
                         <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
                             <option value="">Your {{$item->name}}</option>
                             @foreach ($dropdown_values as $dropdown_value)
@@ -52,7 +52,7 @@
                         </select>
                     </div>
                   @elseif ($item->type == "Compound type")
-                    <div class="dropdown-basic pb-1 compound" id="{{$item->name}}{{$item->id}}_body" style="display: none">     
+                    <div class="pb-1 compound" id="{{$item->name}}{{$item->id}}_body" style="display: none">     
                         <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value1" type="text" placeholder="{{$input_values[0]->name}}">                                
                         <select class="form-select" aria-label="Choose {{$item->name}}" id="{{$item->name}}{{$item->id}}_choose_value">
                           <option value="">Your {{$item->name}}</option>
@@ -60,7 +60,11 @@
                           <option value="{{$dropdown_value->name}}">{{$dropdown_value->name}}</option>
                           @endforeach                    
                         </select>
-                        <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100" onclick="changetype(event)" onblur="percentage(event)" placeholder="{{$input_values[1]->name}}">                                                    
+                        <select class="form-select" onchange="changetype(event)" id="{{$item->name}}{{$item->id}}_changetype">
+                          <option value="Number">Number</option>
+                          <option value="Percent">Percent</option>
+                        </select>
+                        <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100"  placeholder="{{$input_values[1]->name}}">                                                    
                     </div>
                   @endif        
                 </div>

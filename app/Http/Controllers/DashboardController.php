@@ -243,4 +243,11 @@ class DashboardController extends Controller
         
         return redirect()->back();
     }
+
+    public function finduser(Request $req){
+        $find_user = $req->find_user;
+        $users = User::where('name','like','%'.$find_user.'%')->get();
+        
+        return redirect('/')->with([ 'users' => $users ]);
+    }
 }

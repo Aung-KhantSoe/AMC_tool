@@ -4,6 +4,7 @@ function dragStart(event) {
 }
 
 function dragging(event) {
+  event.preventDefault();
 }
 
 
@@ -50,7 +51,7 @@ function drop(event) {
   //check if the card is dropdown type or input type
   //if dropdown type
   //else if input type
-  if (document.getElementById(data).children[4].classList.contains("dropdown")){
+  if (document.getElementById(data).children[4].classList.contains("dropdown_type")){
     //if choose value is not null
    
     if (document.getElementById(data + "_" + "choose_value").value) {
@@ -202,6 +203,7 @@ function modalokclick() {
 
 
 function toggledropdown(event) {
+  
   var id = event.target.parentNode.id;
   if (document.getElementById(id + "_body").style.display == "block") {
    
@@ -433,26 +435,25 @@ function colorchange(event){
   
 }
 
-// function deleteonclick($id){
-//   alert($id);
-//   if (confirm("Are you sure to delete this card?") == true) {
-//     //window.location.href = "{{URL::to('/deletecard/"+$id+"')}}"
-//     location.replace("{{ route('deletecard') }}?id="+$id);
-//   } else {
-//     return;
-//   }
-// }
 
-function percentage(event){
-  var inputfield = document.getElementById(event.target.id);
-  inputfield.type = "text";
-  var percentage = '%';
-  inputfield.value = inputfield.value +percentage;
-}
+
+
 
 function changetype(event){
-  var inputfield = document.getElementById(event.target.id);
-  inputfield.type = "number";
+  var changevalue = event.target.value;
+ 
+  // inputfield.type = "number";
+  var inputfield2 = event.target.nextElementSibling;
+ 
+  if (changevalue == "Number") {
+    alert(changevalue);
+    inputfield2.type = "number";
+  } else if(changevalue == "Percent"){
+    alert(changevalue);
+    inputfield2.type = "text";
+    var percentage = '%';
+    inputfield2.value = inputfield2.value +percentage;
+  }
   
 }
 

@@ -32,6 +32,7 @@ Route::post('/addcarditem','DashboardController@addcarditem')->name('addcarditem
 Route::post('/addproject','DashboardController@addproject')->name('addproject');
 Route::post('/addflow','DashboardController@addflow')->name('addflow');
 Route::post('/adduidatas','DashboardController@adduidatas')->name('adduidatas');
+Route::post('/finduser','DashboardController@finduser')->name('finduser');
 });
 
 Auth::routes();

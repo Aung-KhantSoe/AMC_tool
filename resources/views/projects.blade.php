@@ -20,6 +20,29 @@
             </div>
         </div>
         </div>
+
+        <div class="col-sm-6" id="search_bar">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="{{route('finduser')}}">
+                    @csrf
+                    <input class="form-control" placeholder="Enter user name" name="find_user">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                    @php
+                        $users = session()->get('users');
+                    @endphp
+                    @if (!empty($users))
+                    
+                        @foreach ($users as $user)
+                        <p>{{$user->name}}</p>
+                        @endforeach
+                    @endif
+                    
+                </div>
+            </div>
+        </div>
+
         <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
@@ -37,11 +60,13 @@
                         @endphp
                         <div class="col-xxl-4 col-lg-6">
                             <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">Doing</span>
+                                
                                 <h6>{{$project->name}}</h6>
                                     <div class="media"><img class="img-20 me-2 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
                                         <div class="media-body">
                                             <p>{{Auth::user()->name}}</p>
                                         </div>
+                                        <a data-toggle="tooltip" data-placement="top" title="Add People"><i class="txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
                                     </div>                       
                                 <div class="row details">
                                     <div class="col-6"><span>Created</span></div>
