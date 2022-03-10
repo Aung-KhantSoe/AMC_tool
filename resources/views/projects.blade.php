@@ -21,21 +21,52 @@
         </div>
         </div>
 
-        <div class="col-sm-6" id="search_bar">
+        @if (session()->get('found_users'))
+        <div class="col-sm-6" id="search_bar" style="display: block">
+        @endif
+        @if (empty(session()->get('found_users')))
+        <div class="col-sm-6" id="search_bar" style="display: none">
+        @endif
             <div class="card">
                 <div class="card-body">
+                    @php
+                        $found_users = session()->get('found_users');
+                        $project_id = session()->get('project_id');
+                    @endphp
                     <form method="POST" action="{{route('finduser')}}">
                     @csrf
-                    <input class="form-control" placeholder="Enter user name" name="find_user">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" placeholder="Enter user name" name="find_user" required>
+                            <input value="{{$project_id}}" name="project_id" id="searchbar_project_id" hidden >
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <a href="" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </div>
                     </form>
-                    @php
-                        $users = session()->get('users');
-                    @endphp
-                    @if (!empty($users))
                     
-                        @foreach ($users as $user)
-                        <p>{{$user->name}}</p>
+                    @if (!empty($found_users))
+                        <p class="mt-3">All users with this name ...</p>
+                        @foreach ($found_users as $found_user)
+                        <div class="mt-3">
+                            
+                                {{-- <input value="{{$user->id}}" name="user_id" hidden>
+                                <input value="{{$project_id }}" name="project_id2" hidden> --}}
+                                <button class="btn btn-secondary">{{$found_user->name}}</button>
+                                <a href="{{url("/addusertoproject/{$found_user->id}/{$project_id}") }}"><button class="btn btn-success">Add</button></a>
+                            
+                        </div>
                         @endforeach
                     @endif
                     
@@ -65,8 +96,17 @@
                                     <div class="media"><img class="img-20 me-2 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
                                         <div class="media-body">
                                             <p>{{Auth::user()->name}}</p>
+                                            @php
+                                                $project_has_users = DB::table('user_has_projects')->where('project_id',$project->id)->get();
+                                            @endphp
+                                            @foreach ($project_has_users as $project_has_user)
+                                                @php
+                                                    $users = DB::table('users')->where('id',$project_has_user->user_id)->get();
+                                                @endphp
+                                            @endforeach
+                                            <p>{{count($project_has_users)}} members</p>
                                         </div>
-                                        <a data-toggle="tooltip" data-placement="top" title="Add People"><i class="txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Add member"><i  onclick="addpeople(event)"class="{{$project->id}} txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
                                     </div>                       
                                 <div class="row details">
                                     <div class="col-6"><span>Created</span></div>

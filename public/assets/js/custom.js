@@ -471,3 +471,12 @@ function nameallchild(){
     children[i].firstChild.name = i;
     }
 }
+
+function addpeople(event){
+  var projectid = event.target.classList[0];
+  
+  var search_bar = document.getElementById('search_bar');
+  search_bar.style.display = "block";
+  document.getElementById('searchbar_project_id').value = projectid;
+  
+}

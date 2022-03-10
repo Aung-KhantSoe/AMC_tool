@@ -245,9 +245,32 @@ class DashboardController extends Controller
     }
 
     public function finduser(Request $req){
+        $validated = $req->validate([
+            'find_user' => 'required',
+            'project_id' => 'required',
+        ],[
+            'find_user.required' => 'Please enter username'
+        ]
+        );
         $find_user = $req->find_user;
-        $users = User::where('name','like','%'.$find_user.'%')->get();
+        $project_id = $req->project_id;
+        $found_users = User::where('name','like','%'.$find_user.'%')->get();
         
-        return redirect('/')->with([ 'users' => $users ]);
+        return redirect('/')->with([ 'found_users' => $found_users ,'project_id' => $project_id]);
+    }
+
+    public function addusertoproject($userid,$projectid){
+
+        if (UserHasProject::where('user_id',$userid)->where('project_id',$projectid)->first()) {
+            return redirect()->back();
+        }else{
+            $user_has_projects = new UserHasProject;
+            $user_has_projects->user_id = $userid;
+            $user_has_projects->project_id = $projectid;
+            $user_has_projects->save();
+            return redirect()->back();
+        }
+
+        
     }
 }
