@@ -23,6 +23,7 @@ Route::get('/cardcreate/{id}','DashboardController@cardcreate')->name('cardcreat
 Route::get('/carditemcreate/{id}','DashboardController@carditemcreate')->name('carditemcreate');
 Route::get('/deletecard/{id}','DashboardController@deletecard')->name('deletecard');
 Route::get('/deletecarditem/{id}','DashboardController@deletecarditem')->name('deletecarditem');
+Route::get('/deleteproject/{id}','DashboardController@deleteproject')->name('deleteproject');
 Route::get('/addusertoproject/{userid}/{projectid}','DashboardController@addusertoproject')->name('addusertoproject');
 Route::get('/allflowdata/{id}','DashboardController@allflowdata')->name('allflowdata');
 

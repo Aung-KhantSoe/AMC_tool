@@ -18,6 +18,7 @@ class CreateDropdownValuesTable extends Migration
             $table->string('name');
             $table->foreignId('card_item_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,8 @@ class CreateDropdownValuesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('dropdown_values');
+        Schema::table('dropdown_values', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

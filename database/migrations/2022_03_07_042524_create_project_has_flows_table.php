@@ -18,6 +18,7 @@ class CreateProjectHasFlowsTable extends Migration
             $table->foreignId('project_id')->constrained();
             $table->foreignId('flow_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,8 @@ class CreateProjectHasFlowsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('project_has_flows');
+        Schema::table('project_has_flows', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

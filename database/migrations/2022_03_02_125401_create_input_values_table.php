@@ -18,6 +18,7 @@ class CreateInputValuesTable extends Migration
             $table->string('name');
             $table->foreignId('card_item_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,8 @@ class CreateInputValuesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('input_values');
+        Schema::table('input_values', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

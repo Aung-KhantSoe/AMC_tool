@@ -18,6 +18,7 @@ class CreateFlowHasUidatasTable extends Migration
             $table->foreignId('flow_id')->constrained();
             $table->text('written_content_data')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,8 @@ class CreateFlowHasUidatasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('flow_has_uidatas');
+        Schema::table('flow_has_uidatas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

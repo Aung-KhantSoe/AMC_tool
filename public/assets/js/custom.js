@@ -484,10 +484,10 @@ function addpeople(event){
 function toggleprojectuser(event){
   var drop = event.target;
   if(drop.className == 'fa fa-chevron-down'){
-    document.getElementById('project_included_users').style.display = 'block';
+    drop.parentNode.nextElementSibling.style.display = 'block';
     drop.className = 'fa fa-chevron-up';
   }else if(drop.className == 'fa fa-chevron-up'){
-    document.getElementById('project_included_users').style.display = 'none';
+    drop.parentNode.nextElementSibling.style.display = 'none';
     drop.className = 'fa fa-chevron-down';
   }
   

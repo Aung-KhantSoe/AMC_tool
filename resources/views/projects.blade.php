@@ -12,10 +12,11 @@
                 <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="target"></i>All</a></li>
                 <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>Doing</a></li>
                 <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Done</a></li>
+                <a href=""><i class="fa fa-archive fa-2x"></i></a>
                 </ul>
             </div>
             @if (Auth::user()->user_roles == 'admin')
-            <div class="col-md-6 p-0">                    
+            <div class="col-md-6 p-0">                 
                 <div class="form-group mb-0 me-0"></div><a class="btn btn-primary" href="{{route('projectcreate')}}"> <i data-feather="plus-square"> </i>Create New Project</a>
             </div>
             @endif
@@ -114,7 +115,14 @@
                                             </div>
                                         </div>
                                         @if (Auth::user()->user_roles == 'admin')
-                                        <a data-toggle="tooltip" data-placement="top" title="Add member"><i  onclick="addpeople(event)"class="{{$project->id}} txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a data-toggle="tooltip" data-placement="top" title="Add member"><i  onclick="addpeople(event)"class="{{$project->id}} txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
+                                            </div>
+                                            <div class="col">
+                                                <a  onclick="return confirm('Are you sure to delete this project?')" href="{{route('deleteproject',Crypt::encrypt($project->id))}}"><i  class="txt-danger fa fa-trash-o fa-2x pt-3" ></i></a>
+                                            </div>
+                                        </div>
                                         @endif
                                     </div>                       
                                 <div class="row details">

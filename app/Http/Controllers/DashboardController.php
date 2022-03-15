@@ -188,6 +188,30 @@ class DashboardController extends Controller
         return redirect()->back();
     }
 
+    public function deleteproject($id){
+        $id = Crypt::decrypt($id);
+        $project = Project::where('id',$id)->first();
+        $project_has_flows = ProjectHasFlow::where('project_id',$id)->get();
+        $user_has_projects = UserHasProject::where('project_id',$id)->get();
+        foreach ($project_has_flows as  $project_has_flow) {
+            $flow_id = $project_has_flow->flow_id;
+            $cards = Card::where('flow_id',$flow_id)->get();
+            foreach ($cards as $card) {
+                self::deletecard(Crypt::encrypt($card->id));
+            }
+            $flow_has_uidata = FlowHasUidata::where('flow_id',$flow_id)->first();
+            $flow_has_uidata->delete();
+            $flow = Flow::where('id',$flow_id)->first();
+            $flow->delete();
+            $project_has_flow->delete();
+        }
+        foreach ($user_has_projects as $user_has_project) {
+            $user_has_project->delete();
+        }
+        $project->delete();
+        return redirect()->back();
+    }
+
     public function addproject(Request $req){
         $validated = $req->validate([
             'name' => 'required',

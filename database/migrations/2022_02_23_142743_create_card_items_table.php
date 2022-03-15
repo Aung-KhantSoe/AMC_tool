@@ -19,6 +19,7 @@ class CreateCardItemsTable extends Migration
             $table->string('type');
             $table->foreignId('card_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,5 +31,8 @@ class CreateCardItemsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('card_items');
+        Schema::table('card_items', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

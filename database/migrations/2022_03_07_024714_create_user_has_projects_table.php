@@ -18,6 +18,7 @@ class CreateUserHasProjectsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('project_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,9 @@ class CreateUserHasProjectsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('user_has_projects');
+        Schema::table('user_has_projects', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         
     }
 }
