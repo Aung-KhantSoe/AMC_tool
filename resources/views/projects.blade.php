@@ -14,9 +14,12 @@
                 <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Done</a></li>
                 </ul>
             </div>
+            @if (Auth::user()->user_roles == 'admin')
             <div class="col-md-6 p-0">                    
                 <div class="form-group mb-0 me-0"></div><a class="btn btn-primary" href="{{route('projectcreate')}}"> <i data-feather="plus-square"> </i>Create New Project</a>
             </div>
+            @endif
+            
             </div>
         </div>
         </div>
@@ -55,17 +58,18 @@
                         </div>
                     </div>
                     </form>
+                    <form method="POST" action="{{route('getallusers')}}">
+                        @csrf
+                        <input value="{{$project_id}}" name="project_id2" id="searchbar_allusers" hidden >
+                        <br><button class="btn btn-warning" type="submit">Find All users</button>
+                    </form>
                     
                     @if (!empty($found_users))
-                        <p class="mt-3">All users with this name ...</p>
+                        
                         @foreach ($found_users as $found_user)
                         <div class="mt-3">
-                            
-                                {{-- <input value="{{$user->id}}" name="user_id" hidden>
-                                <input value="{{$project_id }}" name="project_id2" hidden> --}}
-                                <button class="btn btn-secondary">{{$found_user->name}}</button>
-                                <a href="{{url("/addusertoproject/{$found_user->id}/{$project_id}") }}"><button class="btn btn-success">Add</button></a>
-                            
+                            <button class="btn btn-secondary">{{$found_user->name}}({{$found_user->user_roles}})</button>
+                            <a href="{{url("/addusertoproject/{$found_user->id}/{$project_id}") }}"><button class="btn btn-success">Add</button></a>
                         </div>
                         @endforeach
                     @endif
@@ -99,14 +103,19 @@
                                             @php
                                                 $project_has_users = DB::table('user_has_projects')->where('project_id',$project->id)->get();
                                             @endphp
+                                            <p>{{count($project_has_users)}} members  <i class="fa fa-chevron-down" onclick="toggleprojectuser(event)"></i></p>
+                                            <div style="display: none" id="project_included_users">
                                             @foreach ($project_has_users as $project_has_user)
                                                 @php
-                                                    $users = DB::table('users')->where('id',$project_has_user->user_id)->get();
-                                                @endphp
+                                                    $user = DB::table('users')->where('id',$project_has_user->user_id)->first();   
+                                                @endphp                           
+                                            <p class="btn btn-dark">{{$user->name}}({{$user->user_roles}})</p><br>
                                             @endforeach
-                                            <p>{{count($project_has_users)}} members</p>
+                                            </div>
                                         </div>
+                                        @if (Auth::user()->user_roles == 'admin')
                                         <a data-toggle="tooltip" data-placement="top" title="Add member"><i  onclick="addpeople(event)"class="{{$project->id}} txt-secondary fa fa-plus-circle fa-2x pt-3"></i></a>
+                                        @endif
                                     </div>                       
                                 <div class="row details">
                                     <div class="col-6"><span>Created</span></div>
@@ -114,7 +123,9 @@
                                     <div class="col-6"><span>End Date</span></div>
                                     <div class="col-6 font-primary">{{$project->end_date_time}} </div>
                                 </div>
+                                @if (Auth::user()->user_roles == 'admin' || Auth::user()->user_roles == 'officer')
                                 <a href="{{route('flowcreate',Crypt::encrypt($project->id))}}"><button type="button" class="btn btn-primary mt-2">Create new flow</button></a>
+                                @endif
                                 @foreach ($project_has_flows as $project_has_flow) 
                                 @php
                                     $flow = DB::table('flows')->where('id', $project_has_flow->flow_id)->first();

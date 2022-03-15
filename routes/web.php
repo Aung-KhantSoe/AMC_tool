@@ -24,7 +24,7 @@ Route::get('/carditemcreate/{id}','DashboardController@carditemcreate')->name('c
 Route::get('/deletecard/{id}','DashboardController@deletecard')->name('deletecard');
 Route::get('/deletecarditem/{id}','DashboardController@deletecarditem')->name('deletecarditem');
 Route::get('/addusertoproject/{userid}/{projectid}','DashboardController@addusertoproject')->name('addusertoproject');
-
+Route::get('/allflowdata/{id}','DashboardController@allflowdata')->name('allflowdata');
 
 Route::get('/generateppt/{id}','ExportController@generateppt')->name('generateppt');
 
@@ -34,7 +34,9 @@ Route::post('/addcarditem','DashboardController@addcarditem')->name('addcarditem
 Route::post('/addproject','DashboardController@addproject')->name('addproject');
 Route::post('/addflow','DashboardController@addflow')->name('addflow');
 Route::post('/adduidatas','DashboardController@adduidatas')->name('adduidatas');
-Route::post('/finduser','DashboardController@finduser')->name('finduser');
+Route::post('/finduser','DashboardController@finduser')->name('finduser');\
+Route::post('/getallusers','DashboardController@getallusers')->name('getallusers');
+
 });
 
 Auth::routes();

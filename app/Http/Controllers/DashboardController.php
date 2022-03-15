@@ -39,8 +39,12 @@ class DashboardController extends Controller
     }
 
     public function cardcreate($id){
-        $flow_id = Crypt::decrypt($id);
-        return view('cardcreate',compact('flow_id'));
+        if(Auth::user()->user_roles == 'admin' || Auth::user()->user_roles == 'officer' ){
+            $flow_id = Crypt::decrypt($id);
+            return view('cardcreate',compact('flow_id'));
+        }else{
+            return redirect()->back();
+        }
     }
 
     public function projects(){
@@ -50,12 +54,21 @@ class DashboardController extends Controller
     }
 
     public function projectcreate(){
-        return view('projectcreate');
+        if(Auth::user()->user_roles == 'admin'){
+            return view('projectcreate');
+        }else{
+            return redirect()->back();
+        }
+       
     }
 
-    public function flowcreate($id){   
-        $id = Crypt::decrypt($id); 
-        return view('flowcreate',compact("id"));
+    public function flowcreate($id){
+        if(Auth::user()->user_roles == 'admin' || Auth::user()->user_roles == 'officer' ){  
+            $id = Crypt::decrypt($id); 
+            return view('flowcreate',compact("id"));
+        }else{
+            return redirect()->back();
+        }
     }
 
     public function addcard(Request $req){
@@ -272,5 +285,19 @@ class DashboardController extends Controller
         }
 
         
+    }
+
+    public function getallusers(Request $req){
+        $found_users = User::all();
+        $project_id = $req->project_id2;
+        return redirect('/')->with([ 'found_users' => $found_users,'project_id' => $project_id]);
+    }
+
+    public function allflowdata($id){
+        $flow_id = $id;
+        $project = ProjectHasFlow::where('flow_id',$flow_id)->first();
+        $project_id = $project->project_id;
+        $project_has_flows = ProjectHasFlow::where('project_id',$project_id)->get();
+        return view('allflowdata',compact('project_has_flows'));
     }
 }

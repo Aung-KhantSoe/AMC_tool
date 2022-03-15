@@ -7,8 +7,10 @@
         <h4 style="font-weight: bold">{{$flow_name}}</h4>
       </div>
       <div class="pb-5">
+        @if(Auth::user()->user_roles == 'admin' || Auth::user()->user_roles == 'officer')
         <a href="{{route('cardcreate',Crypt::encrypt($flow_id))}}"><button type="button" class="btn btn-success" >Create New Card</button></a>
         <a href="{{route('carditemcreate',Crypt::encrypt($flow_id))}}"><button type="button" class="btn btn-warning" >Create New Item</button></a>
+        @endif
       </div>
       <div class="lists" id="lists">
   
@@ -90,7 +92,12 @@
           <div class="droptarget" id="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)">
             
             @php
+            if ($uidatas != null) {
               $decoded = json_decode($uidatas->written_content_data);
+            }else{
+              $decoded = [];
+            }
+              
             @endphp
             @if (count($decoded) == 0)
             <p class="center" id="drophere" name="drophere" value="dropvalue">Drop here!</p>
@@ -104,6 +111,7 @@
           <div>
             <button type="submit" class="btn btn-success" >Save</button>
             <a onclick="return confirm('Please click Export only after Save')" href="{{route('generateppt',$flow_id)}} "<button type="button" class="btn btn-success" >Export</button></a>          
+            <a class="btn btn-secondary" href="{{route('allflowdata',$flow_id)}}">All flow data</a>
           </div>
         </form>
       </div>

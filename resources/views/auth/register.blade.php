@@ -5,6 +5,15 @@
         <div class="login-card">
           <form class="theme-form login-form" method="POST" action="{{ route('register') }}">
             @csrf
+            @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              @endif
             <h4>Create your account</h4>
             <h6>Enter your personal details to create account</h6>
             <div class="form-group">
@@ -12,6 +21,22 @@
                 <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
                   <input class="form-control @error('name') is-invalid @enderror" type="text"  placeholder="Name" id="name"  id="name" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                   @error('name')
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                  </span>
+                  @enderror
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Your Role</label>
+                <div class="input-group"><span class="input-group-text"><i class="icofont icofont-user-alt-1"></i></span>
+                  <select class="form-select @error('user_roles') is-invalid @enderror" aria-label="Choose role" name="user_roles" id="user_roles" >
+                    <option value="">Choose</option>
+                    <option value="admin">Admin</option>
+                    <option value="officer">Officer</option>
+                    <option value="user">User</option>
+                  </select>
+                  @error('user_roles')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                   </span>
