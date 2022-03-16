@@ -172,6 +172,46 @@ class DashboardController extends Controller
         return redirect()->back();
     }
 
+    public function restorecard($id){
+        $id = Crypt::decrypt($id);
+        $card = Card::onlyTrashed()->where('id',$id)->first();
+        $carditems = CardItem::onlyTrashed()->where('card_id',$id)->get();
+        foreach($carditems as $carditem){
+            $dropdownvalues = DropdownValue::onlyTrashed()->where('card_item_id',$carditem->id)->get();
+            foreach ($dropdownvalues as $dropdownvalue) {
+                $dropdownvalue->restore();
+            }
+            $inputvalues = InputValue::onlyTrashed()->where('card_item_id',$carditem->id)->get();
+            foreach ($inputvalues as $inputvalue) {
+                $inputvalue->restore();
+            }
+            $carditem->restore();
+        }
+        
+        $card->restore();
+        return redirect()->back();
+    }
+
+    public function forceDeletecard($id){
+        $id = Crypt::decrypt($id);
+        $card = Card::onlyTrashed()->where('id',$id)->first();
+        $carditems = CardItem::onlyTrashed()->where('card_id',$id)->get();
+        foreach($carditems as $carditem){
+            $dropdownvalues = DropdownValue::onlyTrashed()->where('card_item_id',$carditem->id)->get();
+            foreach ($dropdownvalues as $dropdownvalue) {
+                $dropdownvalue->forceDelete();
+            }
+            $inputvalues = InputValue::onlyTrashed()->where('card_item_id',$carditem->id)->get();
+            foreach ($inputvalues as $inputvalue) {
+                $inputvalue->forceDelete();
+            }
+            $carditem->forceDelete();
+        }
+        
+        $card->forceDelete();
+        return redirect()->back();
+    }
+
     public function deletecarditem($id){
         $id = Crypt::decrypt($id);
         $carditem = CardItem::where('id',$id)->first();       
@@ -323,5 +363,60 @@ class DashboardController extends Controller
         $project_id = $project->project_id;
         $project_has_flows = ProjectHasFlow::where('project_id',$project_id)->get();
         return view('allflowdata',compact('project_has_flows'));
+    }
+
+    public function archive(){
+        $user_id = Auth::user()->id;
+        $user_has_projects = UserHasProject::onlyTrashed()->where('user_id',$user_id)->get();
+        return view('archive',compact('user_has_projects'));
+    }
+
+    public function restoreproject($id){
+        $id = Crypt::decrypt($id);
+        $project = Project::onlyTrashed()->where('id',$id)->first();
+        $project_has_flows = ProjectHasFlow::onlyTrashed()->where('project_id',$id)->get();
+        $user_has_projects = UserHasProject::onlyTrashed()->where('project_id',$id)->get();
+        foreach ($project_has_flows as  $project_has_flow){
+            $flow_id = $project_has_flow->flow_id;
+            $cards = Card::onlyTrashed()->where('flow_id',$flow_id)->get();
+            foreach ($cards as $card) {
+                self::restorecard(Crypt::encrypt($card->id));
+            }
+            $flow_has_uidata = FlowHasUidata::onlyTrashed()->where('flow_id',$flow_id)->first();
+            $flow_has_uidata->restore();
+            $flow = Flow::onlyTrashed()->where('id',$flow_id)->first();
+            $flow->restore();
+            $project_has_flow->restore();
+        }
+        foreach ($user_has_projects as $user_has_project){
+            $user_has_project->restore();
+        }
+        $project->restore();
+        return redirect()->back();
+    }
+
+    public function forcedeleteproject($id){
+        $id = Crypt::decrypt($id);
+        $project = Project::onlyTrashed()->where('id',$id)->first();
+        $project_has_flows = ProjectHasFlow::onlyTrashed()->where('project_id',$id)->get();
+        $user_has_projects = UserHasProject::onlyTrashed()->where('project_id',$id)->get();
+        foreach ($project_has_flows as  $project_has_flow){
+            $flow_id = $project_has_flow->flow_id;
+            $cards = Card::onlyTrashed()->where('flow_id',$flow_id)->get();
+            foreach ($cards as $card) {
+                self::forceDeletecard(Crypt::encrypt($card->id));
+            }
+            $flow_has_uidata = FlowHasUidata::onlyTrashed()->where('flow_id',$flow_id)->first();
+            $flow_has_uidata->forceDelete();
+            $flow = Flow::onlyTrashed()->where('id',$flow_id)->first();
+            $project_has_flow->forceDelete();
+            $flow->forceDelete();
+            
+        }
+        foreach ($user_has_projects as $user_has_project){
+            $user_has_project->forceDelete();
+        }
+        $project->forceDelete();
+        return redirect()->back();
     }
 }

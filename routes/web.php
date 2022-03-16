@@ -26,6 +26,9 @@ Route::get('/deletecarditem/{id}','DashboardController@deletecarditem')->name('d
 Route::get('/deleteproject/{id}','DashboardController@deleteproject')->name('deleteproject');
 Route::get('/addusertoproject/{userid}/{projectid}','DashboardController@addusertoproject')->name('addusertoproject');
 Route::get('/allflowdata/{id}','DashboardController@allflowdata')->name('allflowdata');
+Route::get('/archive','DashboardController@archive')->name('archive');
+Route::get('/restoreproject/{id}','DashboardController@restoreproject')->name('restoreproject');
+Route::get('/forcedeleteproject/{id}','DashboardController@forcedeleteproject')->name('forcedeleteproject');
 
 Route::get('/generateppt/{id}','ExportController@generateppt')->name('generateppt');
 
