@@ -51,6 +51,42 @@
 <script src="../assets/js/datepicker/date-picker/datepicker.js"></script>
 <script src="../assets/js/datepicker/date-picker/datepicker.en.js"></script>
 <script src="../assets/js/datepicker/date-picker/datepicker.custom.js"></script>
+{{-- CKeditor custom --}}
+<script src="/ckeditor/ckeditor.js"></script>
+<script>ClassicEditor
+  .create( document.querySelector( '.editor' ), {
+    
+    licenseKey: '',
+    
+    
+    
+  } )
+  .then( editor => {
+    window.editor = editor;
+
+    
+    
+    
+  } )
+  .catch( error => {
+    console.error( 'Oops, something went wrong!' );
+    console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+    console.warn( 'Build id: fgydboej4r6a-nohdljl880ze' );
+    console.error( error );
+  } );
+</script>
+{{-- CKeditor --}}
+<script src="../assets/js/editor/ckeditor/ckeditor.js"></script>
+<script src="../assets/js/editor/ckeditor/adapters/jquery.js"></script>
+<script src="../assets/js/editor/ckeditor/styles.js"></script>
+<script src="../assets/js/editor/ckeditor/ckeditor.custom.js"></script>
+<!-- Summer note-->
+<script src="../assets/js/jquery.ui.min.js"></script>
+<script src="../assets/js/editor/summernote/summernote.js"></script>
+<script src="../assets/js/editor/summernote/summernote.custom.js"></script>
+<script src="../assets/js/tooltip-init.js"></script>
+{{-- Mde --}}
+
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="../assets/js/script.js"></script>

@@ -49,6 +49,7 @@
                             <option value="Input type">Input type</option>
                             <option value="Dropdown type" >Dropdown type</option>
                             <option value="Compound type" >Compound type</option>
+                            <option value="Text Editor">Text Editor</option>
                         </select>
                     </div>
                     </div>

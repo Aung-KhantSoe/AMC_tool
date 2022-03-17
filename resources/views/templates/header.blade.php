@@ -31,6 +31,8 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/date-picker.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/prism.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/vector-map.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/summernote.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/simple-mde.css">
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css">

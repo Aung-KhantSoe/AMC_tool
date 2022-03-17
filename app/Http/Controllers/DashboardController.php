@@ -303,7 +303,10 @@ class DashboardController extends Controller
         $flow_id = $req->flow_id;
 
         for ($i=0; $i < $count; $i++) { 
-            array_push($array,$req->input($i));  
+            if($req->input($i)){
+                array_push($array,$req->input($i));
+            }
+              
         }
         $str = str_replace("'", "\'", json_encode($array));
 

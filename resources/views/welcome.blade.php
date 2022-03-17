@@ -68,6 +68,9 @@
                         </select>
                         <input class="form-control" id="{{$item->name}}{{$item->id}}_input_value2" type="number" min="1" max="100"  placeholder="{{$input_values[1]->name}}">                                                    
                     </div>
+                  @elseif ($item->type == "Text Editor")
+                    <div class="texteditor" id="{{$item->name}}{{$item->id}}_body" style="display: none">
+                    </div>
                   @endif        
                 </div>
               @endforeach           
@@ -102,14 +105,21 @@
             @if (count($decoded) == 0)
             <p class="center" id="drophere" name="drophere" value="dropvalue">Drop here!</p>
             @endif
+            
             @for ($i =0 ; $i < count($decoded); $i++)
             <p id="droppeditem"><input class="droppedinput" value="{{$decoded[$i]}}" name="{{$i}}"></p>
+            {{-- <p class="droppedinput" name="{{$i}}">{{$decoded[$i]}}</p> --}}
+            {{-- <textarea class="editor" name="{{$i}}">
+            <p>{{$decoded[$i]}}</p>
+            </textarea> --}}
             @endfor
+            
           </div>
             <input id="child_count" name="child_count" value="{{count($decoded)}}" hidden>
             <input name="flow_id" value="{{$flow_id}}" hidden>
           <div>
             <button type="submit" class="btn btn-success" >Save</button>
+            <p id="ckeditor" style="display: none"><textarea class="editor"></textarea></p>
             <a onclick="return confirm('Please click Export only after Save')" href="{{route('generateppt',$flow_id)}} "<button type="button" class="btn btn-success" >Export</button></a>          
             <a class="btn btn-secondary" href="{{route('allflowdata',$flow_id)}}">All flow data</a>
           </div>

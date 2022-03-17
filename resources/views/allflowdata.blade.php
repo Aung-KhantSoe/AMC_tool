@@ -11,12 +11,12 @@
         <h4 style="font-weight: bold">{{$flow->name}}</h4>
     </div>
     @if($uidata)
-    <div class="pt-3">
+    <div class="p-4">
         @php
             $decoded = json_decode($uidata->written_content_data);
         @endphp
         @foreach ($decoded as $ded)
-        <p>{{$ded}}</p>
+        <p >{!!$ded!!}</p>
         @endforeach
     </div>
     @else

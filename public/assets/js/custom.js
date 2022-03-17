@@ -146,6 +146,10 @@ function drop(event) {
       openmodal(event);
     }
 
+  }else if(document.getElementById(data).children[4].classList.contains("texteditor")){
+    var ckeditor= document.getElementById('ckeditor');
+    event.target.appendChild(ckeditor);
+    ckeditor.style.display ='block';
   }
   nameallchild();
 }
