@@ -496,3 +496,7 @@ function toggleprojectuser(event){
   }
   
 }
+
+function closemessage(){
+  document.getElementById('success_message').remove();
+}

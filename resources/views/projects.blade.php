@@ -10,8 +10,8 @@
                 <div class="col-md-6 p-0">
                     <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
                     <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="target"></i>All</a></li>
-                    <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>Doing</a></li>
-                    <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Done</a></li>
+                    <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>In Progress</a></li>
+                    <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Completed</a></li>
                     <a href="{{route('archive')}}"><i class="fa fa-archive fa-2x"></i></a>
                     </ul>
                 </div>
@@ -24,6 +24,13 @@
                 </div>
             </div>
         </div>
+        @if (session()->get('message'))
+            <div class="alert alert-success col-sm-6" id="success_message">
+                <ul>
+                    <li>{{ session()->get('message') }}<i style="float:right" onclick="closemessage()" class="icofont icofont-close "></i></li>
+                </ul>
+            </div>
+        @endif
 
         @if (session()->get('found_users'))
         <div class="col-sm-6" id="search_bar" style="display: block">
@@ -68,10 +75,12 @@
                     @if (!empty($found_users))
                         
                         @foreach ($found_users as $found_user)
-                        <div class="mt-3">
-                            <button class="btn btn-secondary">{{$found_user->name}}({{$found_user->user_roles}})</button>
-                            <a href="{{url("/addusertoproject/{$found_user->id}/{$project_id}") }}"><button class="btn btn-success">Add</button></a>
-                        </div>
+                         @if ($found_user->id != Auth::user()->id)
+                            <div class="mt-3">
+                                <button class="btn btn-secondary">{{$found_user->name}}({{$found_user->user_roles}})</button>
+                                <a href="{{url("/addusertoproject/{$found_user->id}/{$project_id}") }}"><button class="btn btn-success">Add</button></a>
+                            </div>
+                         @endif
                         @endforeach
                     @endif
                     
@@ -95,7 +104,7 @@
                                 $project_has_flows = DB::table('project_has_flows')->where('project_id', $user_has_project->project_id)->get();
                             @endphp
                             <div class="col-xxl-4 col-lg-6">
-                                <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">Doing</span>
+                                <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">In Progress</span>
                                     
                                     <h6>{{$project->name}}</h6>
                                         <div class="media"><img class="img-20 me-2 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">

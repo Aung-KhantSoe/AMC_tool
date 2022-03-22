@@ -342,20 +342,20 @@ class DashboardController extends Controller
     public function addusertoproject($userid,$projectid){
 
         if (UserHasProject::where('user_id',$userid)->where('project_id',$projectid)->first()) {
-            return redirect()->back();
+            return redirect()->back()->with(['message'=>"User already exists in your project."]);
         }else{
             $user_has_projects = new UserHasProject;
             $user_has_projects->user_id = $userid;
             $user_has_projects->project_id = $projectid;
             $user_has_projects->save();
-            return redirect()->back();
+            return redirect()->back()->with(['message'=>"Added user to your project successfully."]);
         }
 
         
     }
 
     public function getallusers(Request $req){
-        $found_users = User::all();
+        $found_users = User::all()->except(Auth::id());;
         $project_id = $req->project_id2;
         return redirect('/')->with([ 'found_users' => $found_users,'project_id' => $project_id]);
     }
