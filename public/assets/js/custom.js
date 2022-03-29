@@ -500,3 +500,48 @@ function toggleprojectuser(event){
 function closemessage(){
   document.getElementById('success_message').remove();
 }
+
+function showAll(event){
+  var elements= document.getElementsByClassName('In Progress');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'block';
+    
+  }
+  var elements= document.getElementsByClassName('Completed');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'block';
+    
+  }
+}
+
+function showInProgress(event){
+  var elements= document.getElementsByClassName('In Progress');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'block';
+    
+  }
+  var elements= document.getElementsByClassName('Completed');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'none';
+    
+  }
+}
+
+function showCompleted(event){
+  var elements= document.getElementsByClassName('Completed');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'block';
+    
+  }
+  var elements= document.getElementsByClassName('In Progress');
+  
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.display = 'none';
+    
+  }
+}

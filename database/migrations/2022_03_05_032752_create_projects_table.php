@@ -18,7 +18,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('photo')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('In Progress');
             $table->dateTime('end_date_time');
             $table->timestamps();
             $table->softDeletes();

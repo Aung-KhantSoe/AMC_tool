@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Card;
 use App\CardItem;
 use App\DropdownValue;
@@ -23,6 +24,18 @@ class DashboardController extends Controller
     //
     // public function index(){       
     //     return view('home');
+    // }
+
+    // public function __construct() {
+    //     $user = Auth::user();
+    //     $user_has_projects = UserHasProject::where('user_id',$user->id)->get();
+    //     foreach ($user_has_projects as $user_has_project) {
+    //         $project = Project::where('id', $user_has_project->project_id)->first();
+    //         if($project->end_date_time == Carbon::now()){
+    //             $project->status = 'Completed';
+    //             $project->save();
+    //         }
+    //     }
     // }
     
     public function cards($id){
@@ -50,6 +63,13 @@ class DashboardController extends Controller
     public function projects(){
         $user = Auth::user();
         $user_has_projects = UserHasProject::where('user_id',$user->id)->get();
+        foreach ($user_has_projects as $user_has_project) {
+            $project = Project::where('id', $user_has_project->project_id)->first();
+            if(Carbon::now()->gt($project->end_date_time )){
+                $project->status = 'Completed';
+                $project->save();
+            }
+        }
         return view('projects',compact('user_has_projects'));
     }
 
@@ -268,7 +288,6 @@ class DashboardController extends Controller
         $project = new Project;
         $project->name = $req->name;
         $project->photo = $req->photo;
-        $project->status = $req->status;
         $project->end_date_time = $req->end_date_time;
         $project->save();
 

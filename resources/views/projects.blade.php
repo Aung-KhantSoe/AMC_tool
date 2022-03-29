@@ -9,9 +9,9 @@
                 <div class="row">
                 <div class="col-md-6 p-0">
                     <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
-                    <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="target"></i>All</a></li>
-                    <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>In Progress</a></li>
-                    <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Completed</a></li>
+                    <li class="nav-item"><button onclick="showAll(event)" class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="target"></i>All</button></li>
+                    <li class="nav-item" ><button onclick="showInProgress(event)" class="nav-link" id="profile-top-tab" data-bs-toggle="tab"  role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>In Progress</button></li>
+                    <li class="nav-item" ><button onclick="showCompleted(event)" class="nav-link" id="contact-top-tab" data-bs-toggle="tab"  role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Completed</button></li>
                     <a href="{{route('archive')}}"><i class="fa fa-archive fa-2x"></i></a>
                     </ul>
                 </div>
@@ -103,8 +103,8 @@
                                 $project = DB::table('projects')->where('id', $user_has_project->project_id)->first();
                                 $project_has_flows = DB::table('project_has_flows')->where('project_id', $user_has_project->project_id)->get();
                             @endphp
-                            <div class="col-xxl-4 col-lg-6">
-                                <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">In Progress</span>
+                            <div class="col-xxl-4 col-lg-6 {{$project->status}}">
+                                <div class="project-box shadow p-3 mb-5 bg-body rounded"><span class="badge badge-primary">{{$project->status}}</span>
                                     
                                     <h6>{{$project->name}}</h6>
                                         <div class="media"><img class="img-20 me-2 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
